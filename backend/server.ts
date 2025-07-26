@@ -13,46 +13,42 @@ const io = createSocketServer(server);
 async function main() {
   const mediasoupWorker = await createMediasoupWorker();
   const room = await initMediasoup(mediasoupWorker);
-
-  // setInterval(() => {
-  //   console.log("Room state:", {
-  //     producerIds: {
-  //       count: room.producers.size,
-  //       list: JSON.stringify(
-  //         Array.from(room.producers.values()).map((p) => ({
-  //           id: p.id,
-  //         }))
-  //       ),
-  //     },
-  //     consumerIds: {
-  //       count: room.consumers.size,
-  //       list: JSON.stringify(
-  //         Array.from(room.consumers.values()).map((c) => ({
-  //           id: c.id,
-  //         }))
-  //       ),
-  //     },
-  //   });
-  // }, 5000);
-
   setInterval(() => {
     console.log(
-      "Producer count:",
+      "Producers count (/ed by 2): ",
       room.producers.size,
-      "Consumer count:",
+      " Consumer count: ",
       room.consumers.size
     );
-  }, 10000);
+
+    const consumerList = [];
+    for (const consumerObj of room.consumers.values()) {
+      for (const consumer of consumerObj.values()) {
+        // console.log(consumer.id);
+        consumerList.push({
+          id: consumer.id,
+          kind: consumer.kind,
+        });
+      }
+    }
+    console.log("Consumers: ", consumerList);
+  }, 15000);
 
   io.on("connection", (socket) => {
-    const otherProducers = Array.from(room.producers.entries())
-      .filter(([id]) => id !== socket.id)
-      .map(([id, producer]) => ({
-        producerId: producer.id,
-        socketId: id,
-        kind: producer.kind,
-      }));
-    socket.emit("existingProducers", otherProducers);
+    socket.on("getProducers", async (_, callback) => {
+      const existingProducers = [];
+      for (const [socketId, producerMap] of room.producers.entries()) {
+        if (socketId === socket.id) continue; // Skip the current socket
+        for (const [producerId, producer] of producerMap.entries()) {
+          existingProducers.push({
+            socketId,
+            producerId,
+            kind: producer.kind,
+          });
+        }
+      }
+      callback(existingProducers);
+    });
 
     socket.on("createTransport", async (_, callback) => {
       try {
@@ -86,10 +82,17 @@ async function main() {
           if (!transport) throw new Error("Transport not found");
           const producer = await transport.produce({ kind, rtpParameters });
 
-          room.producers.set(socket.id, producer);
-          callback({ id: producer.id });
+          // room.producers.set(socket.id, producer);
 
-          console.log("New producer created:", producer.id, socket.id);
+          const producerMap = new Map();
+          if (room.producers.has(socket.id)) {
+            room.producers.get(socket.id)?.set(producer.id, producer);
+          } else {
+            producerMap.set(producer.id, producer);
+            room.producers.set(socket.id, producerMap);
+          }
+
+          callback({ id: producer.id });
 
           socket.broadcast.emit("newProducer", {
             producerId: producer.id,
@@ -114,14 +117,21 @@ async function main() {
             rtpCapabilities,
             paused: false,
           });
-          room.consumers.set(socket.id, consumer);
+
+          if (room.consumers.has(socket.id)) {
+            room.consumers.get(socket.id)?.set(consumer.id, consumer);
+          } else {
+            const consumerMap = new Map();
+            consumerMap.set(consumer.id, consumer);
+            room.consumers.set(socket.id, consumerMap);
+          }
+
           callback({
             id: consumer.id,
             producerId,
             kind: consumer.kind,
             rtpParameters: consumer.rtpParameters,
           });
-          console.log("Consumer call for:", producerId);
         } catch (error) {
           callback({ error });
         }
@@ -143,19 +153,30 @@ async function main() {
       }
 
       // Close and remove consumers
-      const consumer = room.consumers.get(socket.id);
-      if (consumer) {
-        consumer.close();
-        room.consumers.delete(socket.id);
-        console.log("Consumer closed for socket:", socket.id, consumer.id);
-      }
+      if (room.consumers.has(socket.id)) {
+        const currentConsumers = room.consumers.get(socket.id);
 
-      // Remove producer
-      const producer = room.producers.get(socket.id);
-      if (producer) {
-        room.producers.delete(socket.id);
-        console.log("Producer closed for socket:", socket.id, producer.id);
+        if (currentConsumers) {
+          for (const consumer of currentConsumers.values()) {
+            consumer.close();
+          }
+        }
       }
+      room.consumers.delete(socket.id);
+
+      if (room.producers.has(socket.id)) {
+        const currentProducers = room.producers.get(socket.id);
+
+        if (currentProducers) {
+          for (const producer of currentProducers.values()) {
+            producer.close();
+          }
+        }
+      }
+      room.producers.delete(socket.id);
+      // Remove producer
+      // room.producers.delete(socket.id);
+      // console.log("Producer removed for socket:", socket.id);
     });
   });
 

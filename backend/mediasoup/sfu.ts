@@ -5,8 +5,8 @@ import { config } from "./config";
 export class Room {
   router: mediasoup.types.Router;
   transports: Map<string, mediasoup.types.WebRtcTransport>;
-  producers: Map<string, mediasoup.types.Producer>;
-  consumers: Map<string, mediasoup.types.Consumer>;
+  producers: Map<string, Map<string, mediasoup.types.Producer>>;
+  consumers: Map<string, Map<string, mediasoup.types.Consumer>>;
   constructor(router: mediasoup.types.Router) {
     this.router = router;
     this.transports = new Map();

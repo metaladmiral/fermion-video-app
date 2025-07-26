@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import * as mediasoupClient from "mediasoup-client";
 
@@ -18,20 +18,20 @@ export default function StreamPage() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [device, setDevice] = useState<mediasoupClient.Device | null>(null);
   const [remoteStreams, setRemoteStreams] = useState<
-    { id: string; stream: MediaStream }[]
+    { id: string; kind: string; stream: MediaStream }[]
   >([]);
   const [allProducers, setAllProducers] = useState<
     { socketId: string; producerId: string; kind: string }[]
   >([]);
+
+  const [isRecvTransportConnected, setIsRecvTransportConnected] =
+    useState(false);
+
   useEffect(() => {
     const socket = io("http://localhost:3001", { path: "/ws" });
     socket.on("existingProducers", (producers) => {
       console.log(producers);
       setAllProducers(producers);
-    });
-
-    socket.on("connect", () => {
-      console.log("Connected to WebSocket server: ", socket.id);
     });
 
     setSocket(socket);
@@ -54,8 +54,6 @@ export default function StreamPage() {
     if (!socket) {
       return;
     }
-
-    console.log("running loadDevice");
 
     const loadDevice = async () => {
       socket.emit("getRtpCapabilities", async (capabilities: any) => {
@@ -132,23 +130,25 @@ export default function StreamPage() {
   }, [socket]);
 
   // consumer logic
-  async function consumeProducer(
+  const consumeProducer = async (
     producerId: string,
     kind: string,
-    transport: any,
-    transportId: string
-  ) {
+    transport: any
+  ) => {
     if (!socket || !device) return;
 
     socket.emit(
       "consume",
       {
         producerId,
-        transportId: transportId,
+        transportId: transport.id,
         rtpCapabilities: device.rtpCapabilities,
       },
       async (params: any) => {
-        if (params.error) return;
+        if (params.error) {
+          console.log("Consume error: ", params.error);
+          return;
+        }
         const consumer = await transport.consume({
           id: params.id,
           producerId: params.producerId,
@@ -157,79 +157,130 @@ export default function StreamPage() {
         });
         await consumer.resume();
         const stream = new MediaStream([consumer.track]);
+
+        console.log("Consumer track ready?", consumer.track.readyState); // should be "live"
+        console.log("Attaching stream to video...", stream);
+
         setRemoteStreams((prev) => [
           ...prev,
-          { id: params.producerId, stream },
+          { id: params.producerId, kind: params.kind, stream },
         ]);
       }
     );
-  }
+  };
+
+  const [recvTransport, setRecvTransport] = useState<any>(null);
+
   // useEffect(() => {
+  //   console.log("First useEffect triggered:", {
+  //     socket: !!socket,
+  //     device: !!device,
+  //     isRecvTransportConnected,
+  //     allProducersLength: allProducers.length,
+  //     recvTransport: !!recvTransport,
+  //   });
   //   if (!socket || !device) return;
+  //   if (isRecvTransportConnected) {
+  //     allProducers.forEach(({ producerId, kind }) => {
+  //       console.log("Consuming producer:", producerId, kind);
+  //       consumeProducer(producerId, kind, recvTransport);
+  //     });
+  //   }
+  // }, [
+  //   socket,
+  //   device,
+  //   isRecvTransportConnected,
+  //   consumeProducer,
+  //   allProducers,
+  //   recvTransport,
+  // ]);
 
-  // Create recvTransport
-  // function createRecvTransport(
-  //   socket: Socket,
-  //   device: mediasoupClient.Device,
-  //   producerId: string,
-  //   kind: any
-  // ) {
+  // allProducers.forEach(({ producerId, kind }) => {
+  //   console.log("Consuming producer:", producerId, kind);
+  //   consumeProducer(producerId, kind, recvTransport);
+  // });
 
-  // }
-  let recvTransport: any = useRef(null);
-  let transportId: any = useRef("");
+  function shittyFxn() {
+    console.log("assys");
+    // allProducers.forEach(({ producerId, kind }) => {
+    //       console.log("Consuming producer:", producerId, kind);
+    //       consumeProducer(producerId, kind, recvTransportLocal);
+    //     });
+  }
+
+  // Helper to sync existing producers after transport is connected
+  async function syncWithRoom(recvTransport: any) {
+    if (!socket || !device || !recvTransport) {
+      console.log(" no socket or device or recv transport returning...");
+      return;
+    }
+
+    socket.emit("getProducers", {}, (producers: any[]) => {
+      console.log("Active producers received:", producers);
+      producers.forEach(({ socketId, producerId, kind }: any) => {
+        console.log("Consuming:", producerId, kind);
+        consumeProducer(producerId, kind, recvTransport);
+      });
+    });
+  }
 
   useEffect(() => {
-    if (socket && device) {
-      socket.emit("createTransport", {}, (response: TransportResponse) => {
-        if (response.param) {
-          recvTransport.current = device.createRecvTransport({
-            id: response.param.id,
-            iceParameters: response.param.iceParameters,
-            iceCandidates: response.param.iceCandidates,
-            dtlsParameters: response.param.dtlsParameters,
-          });
+    if (!socket || !device) return;
 
-          transportId.current = recvTransport.current.id;
+    // Create recvTransport
+    console.log("create transport emit");
+    socket.emit("createTransport", {}, (response: TransportResponse) => {
+      if (response.param) {
+        console.log("create recvTransport");
+        const recvTransportLocal = device.createRecvTransport({
+          id: response.param.id,
+          iceParameters: response.param.iceParameters,
+          iceCandidates: response.param.iceCandidates,
+          dtlsParameters: response.param.dtlsParameters,
+        });
 
-          recvTransport.current.on(
-            "connect",
-            ({ dtlsParameters }, callback, errback) => {
-              socket.emit(
-                "connectTransport",
-                { transportId: transportId.current, dtlsParameters },
-                (response: any) => {
-                  if (response.success) {
-                    callback();
-                  } else {
-                    errback(new Error("Failed to connect recvTransport"));
-                  }
+        recvTransportLocal.on(
+          "connect",
+          ({ dtlsParameters }, callback, errback) => {
+            console.log("connect transport emit");
+            socket.emit(
+              "connectTransport",
+              {
+                transportId: recvTransportLocal.id,
+                dtlsParameters: dtlsParameters,
+              },
+              (response: any) => {
+                if (response.success) {
+                  callback();
+                } else {
+                  console.error("poop");
+                  errback(new Error("Failed to connect recvTransport"));
                 }
-              );
-            }
-          );
-        }
-      });
+              }
+            );
+          }
+        );
 
-      allProducers.forEach(({ socketId, producerId, kind }) => {
-        console.log("Consuming producer:", producerId, kind);
-        consumeProducer(
-          producerId,
-          kind,
-          recvTransport.current,
-          transportId.current
-        );
-      });
-      socket.on("newProducer", ({ producerId, kind }) => {
-        console.log("New producer:", producerId, kind);
-        consumeProducer(
-          producerId,
-          kind,
-          recvTransport.current,
-          transportId.current
-        );
-      });
-    }
+        // setRecvTransport(recvTransportLocal);
+        // syncWithRoom(recvTransportLocal); // then consume
+
+        // allProducers.forEach(({ producerId, kind }) => {
+        //   console.log("Consuming producer:", producerId, kind);
+        //   consumeProducer(producerId, kind, recvTransportLocal);
+        // });
+        socket.emit("getProducers", {}, (existingProducers: any[]) => {
+          existingProducers.forEach(({ producerId, kind }) => {
+            console.log("Consuming producer:", producerId, kind);
+            consumeProducer(producerId, kind, recvTransportLocal);
+          });
+        });
+
+        // Listen for new producers
+        socket.on("newProducer", ({ producerId, kind }) => {
+          consumeProducer(producerId, kind, recvTransportLocal);
+        });
+      }
+    });
   }, [socket, device]);
 
   return (
@@ -248,19 +299,37 @@ export default function StreamPage() {
         </div>
         <div>
           <h2 className="text-sm">Remote Camera</h2>
-          {remoteStreams.map(({ id, stream }) => (
-            <video
-              key={id}
-              autoPlay
-              playsInline
-              className="w-80 h-60 border"
-              ref={(el) => {
-                if (el) {
-                  el.srcObject = stream;
-                }
-              }}
-            />
-          ))}
+          {remoteStreams.map(({ id, kind, stream }) => {
+            if (kind === "video") {
+              return (
+                <video
+                  key={id}
+                  playsInline
+                  className="w-80 h-60 border"
+                  ref={(el) => {
+                    if (el) {
+                      el.srcObject = stream;
+                    }
+                  }}
+                />
+              );
+            } else {
+              return (
+                <audio
+                  style={{ visibility: "visible" }}
+                  key={id}
+                  autoPlay
+                  controls
+                  className="w-80 h-20 border"
+                  ref={(el) => {
+                    if (el) {
+                      el.srcObject = stream;
+                    }
+                  }}
+                />
+              );
+            }
+          })}
         </div>
       </div>
     </div>
