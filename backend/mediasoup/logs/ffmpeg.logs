@@ -1,0 +1,74 @@
+ffmpeg version 7.0.2-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers
+  built with gcc 13.2.0 (Rev5, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      59.  8.100 / 59.  8.100
+  libavcodec     61.  3.100 / 61.  3.100
+  libavformat    61.  1.100 / 61.  1.100
+  libavdevice    61.  1.100 / 61.  1.100
+  libavfilter    10.  1.100 / 10.  1.100
+  libswscale      8.  1.100 /  8.  1.100
+  libswresample   5.  1.100 /  5.  1.100
+  libpostproc    58.  1.100 / 58.  1.100
+[udp @ 000001cea66c8dc0] bind failed: Error number -10048 occurred
+[in#0 @ 000001cea668fdc0] Error opening input: Invalid data found when processing input
+Error opening input file D:\projects\webrtc\backend\mediasoup\stream.sdp.
+Error opening input files: Invalid data found when processing input
+
+
+
+ffmpeg version 7.0.2-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers
+  built with gcc 13.2.0 (Rev5, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      59.  8.100 / 59.  8.100
+  libavcodec     61.  3.100 / 61.  3.100
+  libavformat    61.  1.100 / 61.  1.100
+  libavdevice    61.  1.100 / 61.  1.100
+  libavfilter    10.  1.100 / 10.  1.100
+  libswscale      8.  1.100 /  8.  1.100
+  libswresample   5.  1.100 /  5.  1.100
+  libpostproc    58.  1.100 / 58.  1.100
+[udp @ 000002423a8c8d00] bind failed: Error number -10048 occurred
+[in#0 @ 000002423a88fdc0] Error opening input: Invalid data found when processing input
+Error opening input file D:\projects\webrtc\backend\mediasoup\stream.sdp.
+Error opening input files: Invalid data found when processing input
+ffmpeg version 7.0.2-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers
+  built with gcc 13.2.0 (Rev5, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      59.  8.100 / 59.  8.100
+  libavcodec     61.  3.100 / 61.  3.100
+  libavformat    61.  1.100 / 61.  1.100
+  libavdevice    61.  1.100 / 61.  1.100
+  libavfilter    10.  1.100 / 10.  1.100
+  libswscale      8.  1.100 /  8.  1.100
+  libswresample   5.  1.100 /  5.  1.100
+  libpostproc    58.  1.100 / 58.  1.100
+[sdp @ 000001b50e391280] Could not find codec parameters for stream 1 (Video: vp8, yuv420p): unspecified size
+Consider increasing the value for the 'analyzeduration' (0) and 'probesize' (5000000) options
+Input #0, sdp, from 'D:\projects\webrtc\backend\mediasoup\stream.sdp':
+  Metadata:
+    title           : Mediasoup Stream
+  Duration: N/A, bitrate: N/A
+  Stream #0:0: Audio: opus, 48000 Hz, stereo, fltp
+  Stream #0:1: Video: vp8, yuv420p, 90k tbr, 90k tbn
+[out#0/hls @ 000001b50e432ac0] Codec AVOption preset (Configuration preset) has not been used for any stream. The most likely reason is either wrong type (e.g. a video option with no video streams) or that it is a private option of some encoder which was not actually used for any stream.
+[out#0/hls @ 000001b50e432ac0] Codec AVOption tune (The metric that the encoder tunes for. Automatically chosen by the encoder by default) has not been used for any stream. The most likely reason is either wrong type (e.g. a video option with no video streams) or that it is a private option of some encoder which was not actually used for any stream.
+[out#0/hls @ 000001b50e432ac0] Codec AVOption profile () has not been used for any stream. The most likely reason is either wrong type (e.g. a video option with no video streams) or that it is a private option of some encoder which was not actually used for any stream.
+Stream mapping:
+  Stream #0:0 -> #0:0 (opus (native) -> aac (native))
+Press [q] to stop, [?] for help
+[in#0/sdp @ 000001b50e390ec0] Error during demuxing: Error number -138 occurred
+[aost#0:0/aac @ 000001b50e41dfc0] No filtered frames for output stream, trying to initialize anyway.
+[mpegts @ 000001b50e45e840] frame size not set
+Output #0, hls, to 'D:\projects\webrtc\backend\mediasoup\public\hls\stream.m3u8':
+  Metadata:
+    title           : Mediasoup Stream
+    encoder         : Lavf61.1.100
+  Stream #0:0: Audio: aac (LC), 44100 Hz, stereo, fltp, 128 kb/s
+      Metadata:
+        encoder         : Lavc61.3.100 aac
+[hls @ 000001b50e432bc0] Opening 'D:\projects\webrtc\backend\mediasoup\public\hls\stream0.ts' for writing
+[hls @ 000001b50e432bc0] Opening 'D:\projects\webrtc\backend\mediasoup\public\hls\stream.m3u8.tmp' for writing
+[out#0/hls @ 000001b50e432ac0] video:0KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+[out#0/hls @ 000001b50e432ac0] Output file is empty, nothing was encoded(check -ss / -t / -frames parameters if used)
+size=N/A time=N/A bitrate=N/A speed=N/A    
+[aac @ 000001b50e432f80] Qavg: nan

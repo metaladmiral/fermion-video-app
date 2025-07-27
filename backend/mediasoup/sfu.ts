@@ -1,12 +1,13 @@
 import * as mediasoup from "mediasoup";
 import { RtpCodecCapability } from "mediasoup/node/lib/rtpParametersTypes";
 import { config } from "./config";
-
+import stream from "./stream";
+import { Producer, Consumer } from "./types";
 export class Room {
   router: mediasoup.types.Router;
   transports: Map<string, mediasoup.types.WebRtcTransport>;
-  producers: Map<string, Map<string, mediasoup.types.Producer>>;
-  consumers: Map<string, Map<string, mediasoup.types.Consumer>>;
+  producers: Producer;
+  consumers: Consumer;
   constructor(router: mediasoup.types.Router) {
     this.router = router;
     this.transports = new Map();
@@ -62,6 +63,7 @@ const mediaCodecs: RtpCodecCapability[] = [
 export async function initMediasoup(worker: mediasoup.types.Worker) {
   const router = await worker.createRouter({ mediaCodecs });
   const room = new Room(router);
+  stream(router, room);
   console.log("Mediasoup router created with ID: ", router.id);
   return room;
 }

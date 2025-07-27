@@ -4,11 +4,14 @@ import http from "http";
 import { createSocketServer } from "./ws/ws";
 import { createMediasoupWorker } from "./mediasoup/worker";
 import { initMediasoup } from "./mediasoup/sfu";
+import path from "path";
 // import { initMediasoup } from "./mediasoup/sfu";
 
 const app = express();
 const server = http.createServer(app);
 const io = createSocketServer(server);
+
+app.use("/hls", express.static(path.join(__dirname, "/mediasoup/public/hls")));
 
 async function main() {
   const mediasoupWorker = await createMediasoupWorker();
