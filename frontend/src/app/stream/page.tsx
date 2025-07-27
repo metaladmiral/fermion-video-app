@@ -33,17 +33,20 @@ export default function StreamPage() {
 
   useEffect(() => {
     const socket = io("http://localhost:3001", { path: "/ws" });
-    socket.on("existingProducers", (producers) => {
-      console.log(producers);
-      setAllProducers(producers);
-    });
     socket.on("removeProducerInClient", ({ producerId }) => {
       console.log("close Producer in client called: ", producerId);
+      producerMap.current.get(producerId)?.close();
       producerMap.current.delete(producerId);
     });
     socket.on("removeConsumerInClient", ({ consumerId }) => {
       console.log("close Consumer in client called: ", consumerId);
+      consumerMap.current.get(consumerId)?.close();
       consumerMap.current.delete(consumerId);
+      setRemoteStreams((prev) => {
+        const newMap = new Map(prev);
+        newMap.delete(consumerId);
+        return newMap;
+      });
     });
 
     setSocket(socket);
