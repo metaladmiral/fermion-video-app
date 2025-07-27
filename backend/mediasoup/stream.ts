@@ -8,19 +8,14 @@ import { promises as fs } from "fs";
 
 async function createConsumersForStreaming(
   router: mediasoup.types.Router,
-  audioTransport: mediasoup.types.Transport,
-  videoTransport: mediasoup.types.Transport,
+  rtpTransport: mediasoup.types.Transport,
   producers: Producer
 ) {
   for (const [socketid, producersMap] of producers) {
     for (const [producerId, producer] of producersMap) {
-      // Create consumers on appropriate transports based on media type
-      const transport =
-        producer.kind === "audio" ? audioTransport : videoTransport;
-
-      await transport.consume({
+      await rtpTransport.consume({
         producerId: producer.id,
-        rtpCapabilities: router.rtpCapabilities,
+        rtpCapabilities: router.rtpCapabilities, // doesn't matter much here
         paused: false,
       });
     }
@@ -31,66 +26,42 @@ export default async function stream(
   router: mediasoup.types.Router,
   room: Room
 ) {
-  // Create separate transports for audio and video to avoid port conflicts
-  const audioTransport = await router.createPlainTransport({
+  const rtpTransport = await router.createPlainTransport({
     listenIp: { ip: "127.0.0.1", announcedIp: undefined },
-    rtcpMux: false,
-    comedia: true, // Enable comedia to handle dynamic ports
+    rtcpMux: true,
+    comedia: false,
   });
 
-  const videoTransport = await router.createPlainTransport({
-    listenIp: { ip: "127.0.0.1", announcedIp: undefined },
-    rtcpMux: false,
-    comedia: true, // Enable comedia to handle dynamic ports
+  console.log("RTP Transport created:", {
+    ip: rtpTransport.tuple.localIp,
+    port: rtpTransport.tuple.localPort,
+    rtcpPort: rtpTransport.rtcpTuple?.localPort,
   });
 
-  console.log("RTP Transports created:", {
-    audio: {
-      ip: audioTransport.tuple.localIp,
-      port: audioTransport.tuple.localPort,
-      rtcpPort: audioTransport.rtcpTuple?.localPort,
-    },
-    video: {
-      ip: videoTransport.tuple.localIp,
-      port: videoTransport.tuple.localPort,
-      rtcpPort: videoTransport.rtcpTuple?.localPort,
-    },
-  });
-
-  if (room.producers.size > 0) {
-    await createConsumersForStreaming(
-      router,
-      audioTransport,
-      videoTransport,
-      room.producers
-    );
+  if (room.producers.size >= 4) {
+    await createConsumersForStreaming(router, rtpTransport, room.producers);
 
     const sdpPath = await generateSdp({
-      audioPort: audioTransport.tuple.localPort,
-      videoPort: videoTransport.tuple.localPort,
+      audioPort: rtpTransport.tuple.localPort,
+      videoPort: rtpTransport.tuple.localPort,
     });
+    console.log("SDP path");
 
-    console.log("SDP generated at:", sdpPath);
     spawnFFmpeg(sdpPath, path.join(__dirname, "public/hls"));
   } else {
-    console.log("No producers yet... registering an interval to check");
+    console.log("no producers yet... registering an interval to chk");
     const interval = setInterval(async () => {
       if (room.producers.size > 0) {
         clearInterval(interval);
         console.log("Creating Consumers");
-        await createConsumersForStreaming(
-          router,
-          audioTransport,
-          videoTransport,
-          room.producers
-        );
+        await createConsumersForStreaming(router, rtpTransport, room.producers);
 
         console.log("Generating the SDP path now:");
         const sdpPath = await generateSdp({
-          audioPort: audioTransport.tuple.localPort,
-          videoPort: videoTransport.tuple.localPort,
+          audioPort: rtpTransport.tuple.localPort,
+          videoPort: rtpTransport.tuple.localPort,
         });
-        console.log("SDP generated at:", sdpPath);
+        console.log(sdpPath);
 
         spawnFFmpeg(sdpPath, path.join(__dirname, "public/hls"));
       }
@@ -99,17 +70,10 @@ export default async function stream(
 }
 
 function spawnFFmpeg(sdpPath: string, outputDir: string) {
-  console.log("Starting FFmpeg with SDP:", sdpPath);
-
-  // Ensure output directory exists
-  require("fs").mkdirSync(outputDir, { recursive: true });
-
+  console.log("starting ffmpeg now");
   const ffmpeg = spawn("ffmpeg", [
-    "-y", // Overwrite output files
     "-protocol_whitelist",
     "file,udp,rtp",
-    "-fflags",
-    "+genpts", // Generate presentation timestamps
     "-i",
     sdpPath,
     "-c:v",
@@ -118,12 +82,6 @@ function spawnFFmpeg(sdpPath: string, outputDir: string) {
     "ultrafast",
     "-tune",
     "zerolatency",
-    "-profile:v",
-    "baseline", // Use baseline profile for better compatibility
-    "-level",
-    "3.1",
-    "-pix_fmt",
-    "yuv420p", // Ensure compatible pixel format
     "-c:a",
     "aac",
     "-ar",
@@ -138,35 +96,19 @@ function spawnFFmpeg(sdpPath: string, outputDir: string) {
     "5",
     "-hls_flags",
     "delete_segments",
-    "-hls_allow_cache",
-    "0",
     path.join(outputDir, "stream.m3u8"),
   ]);
 
   ffmpeg.stdout.on("data", async (data) => {
-    console.log(`FFmpeg stdout: ${data}`);
-    try {
-      await fs.appendFile(path.join(__dirname, "/logs/ffmpeg.logs"), data);
-    } catch (err) {
-      console.error("Failed to write to log file:", err);
-    }
+    await fs.appendFile(path.join(__dirname, "/logs/ffmpeg.logs"), data);
   });
 
   ffmpeg.stderr.on("data", async (data) => {
-    console.log(`FFmpeg stderr: ${data}`);
-    try {
-      await fs.appendFile(path.join(__dirname, "/logs/ffmpeg.logs"), data);
-    } catch (err) {
-      console.error("Failed to write to log file:", err);
-    }
+    await fs.appendFile(path.join(__dirname, "/logs/ffmpeg.logs"), data);
   });
 
   ffmpeg.on("exit", async (code) => {
     console.log(`FFmpeg exited with code ${code}`);
-  });
-
-  ffmpeg.on("error", (err) => {
-    console.error("FFmpeg process error:", err);
   });
 
   return ffmpeg;

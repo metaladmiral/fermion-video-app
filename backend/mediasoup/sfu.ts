@@ -63,7 +63,7 @@ const mediaCodecs: RtpCodecCapability[] = [
 export async function initMediasoup(worker: mediasoup.types.Worker) {
   const router = await worker.createRouter({ mediaCodecs });
   const room = new Room(router);
-  stream(router, room);
+  // stream(router, room);
   console.log("Mediasoup router created with ID: ", router.id);
   return room;
 }

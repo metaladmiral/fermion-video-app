@@ -18,20 +18,32 @@ export default function StreamPage() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [device, setDevice] = useState<mediasoupClient.Device | null>(null);
   const [remoteStreams, setRemoteStreams] = useState<
-    { id: string; kind: string; stream: MediaStream }[]
-  >([]);
+    Map<string, { kind: string; stream: MediaStream }>
+  >(new Map());
   const [allProducers, setAllProducers] = useState<
     { socketId: string; producerId: string; kind: string }[]
   >([]);
 
-  const [isRecvTransportConnected, setIsRecvTransportConnected] =
-    useState(false);
+  const producerMap = useRef<Map<string, mediasoupClient.types.Producer>>(
+    new Map()
+  );
+  const consumerMap = useRef<Map<string, mediasoupClient.types.Consumer>>(
+    new Map()
+  );
 
   useEffect(() => {
     const socket = io("http://localhost:3001", { path: "/ws" });
     socket.on("existingProducers", (producers) => {
       console.log(producers);
       setAllProducers(producers);
+    });
+    socket.on("removeProducerInClient", ({ producerId }) => {
+      console.log("close Producer in client called: ", producerId);
+      producerMap.current.delete(producerId);
+    });
+    socket.on("removeConsumerInClient", ({ consumerId }) => {
+      console.log("close Consumer in client called: ", consumerId);
+      consumerMap.current.delete(consumerId);
     });
 
     setSocket(socket);
@@ -106,17 +118,33 @@ export default function StreamPage() {
 
             navigator.mediaDevices
               .getUserMedia({ video: true, audio: true })
-              .then((stream) => {
+              .then(async (stream) => {
                 const videoTrack = stream.getVideoTracks()[0];
                 const audioTrack = stream.getAudioTracks()[0];
 
                 // Produce video
                 if (videoTrack) {
-                  sendTransport.produce({ track: videoTrack });
+                  const producer = await sendTransport.produce({
+                    track: videoTrack,
+                  });
+                  producerMap.current.set(producer.id, producer);
+                  producer.on("transportclose", () => {
+                    socket.emit("removeProducerInServer", {
+                      producerId: producer.id,
+                    });
+                  });
                 }
                 // Produce audio
                 if (audioTrack) {
-                  sendTransport.produce({ track: audioTrack });
+                  const producer = await sendTransport.produce({
+                    track: audioTrack,
+                  });
+                  producerMap.current.set(producer.id, producer);
+                  producer.on("transportclose", () => {
+                    socket.emit("removeProducerInServer", {
+                      producerId: producer.id,
+                    });
+                  });
                 }
               });
           } else {
@@ -155,12 +183,22 @@ export default function StreamPage() {
           kind: params.kind,
           rtpParameters: params.rtpParameters,
         });
+
+        consumerMap.current.set(consumer.id, consumer);
+        consumer.on("transportclose", () => {
+          socket.emit("removeConsumerInServer", { consumerId: consumer.id });
+        });
+
         await consumer.resume();
         const stream = new MediaStream([consumer.track]);
-        setRemoteStreams((prev) => [
-          ...prev,
-          { id: params.producerId, kind: params.kind, stream },
-        ]);
+        setRemoteStreams((prev) => {
+          const newMap = new Map(prev);
+          newMap.set(consumer.id, {
+            kind: params.kind,
+            stream: stream,
+          });
+          return newMap;
+        });
       }
     );
   };
@@ -228,7 +266,39 @@ export default function StreamPage() {
         </div>
         <div>
           <h2 className="text-sm">Remote Camera</h2>
-          {remoteStreams.map(({ id, kind, stream }) => {
+          {Array.from(remoteStreams).map(([consumerId, { kind, stream }]) => {
+            if (kind === "video") {
+              return (
+                <video
+                  key={consumerId}
+                  playsInline
+                  autoPlay
+                  className="w-80 h-60 border"
+                  ref={(el) => {
+                    if (el) {
+                      el.srcObject = stream;
+                    }
+                  }}
+                />
+              );
+            } else {
+              return (
+                <audio
+                  style={{ visibility: "hidden" }}
+                  key={consumerId}
+                  autoPlay
+                  controls
+                  className="w-80 h-20 border"
+                  ref={(el) => {
+                    if (el) {
+                      el.srcObject = stream;
+                    }
+                  }}
+                />
+              );
+            }
+          })}
+          {/* {remoteStreams.map(({ id, kind, stream }) => {
             if (kind === "video") {
               return (
                 <video
@@ -259,7 +329,7 @@ export default function StreamPage() {
                 />
               );
             }
-          })}
+          })} */}
         </div>
       </div>
     </div>

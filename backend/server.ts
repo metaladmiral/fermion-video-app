@@ -5,6 +5,7 @@ import { createSocketServer } from "./ws/ws";
 import { createMediasoupWorker } from "./mediasoup/worker";
 import { initMediasoup } from "./mediasoup/sfu";
 import path from "path";
+import { Consumer } from "./mediasoup/types";
 // import { initMediasoup } from "./mediasoup/sfu";
 
 const app = express();
@@ -23,6 +24,8 @@ async function main() {
       " Consumer count: ",
       room.consumers.size
     );
+
+    console.log(room.consumers);
 
     const consumerList = [];
     for (const consumerObj of room.consumers.values()) {
@@ -87,6 +90,13 @@ async function main() {
 
           // room.producers.set(socket.id, producer);
 
+          producer.on("transportclose", () => {
+            // emit msg to client to close the producer
+            socket.emit("removeProducerInClient", {
+              producerId: producer.id,
+            });
+          });
+
           const producerMap = new Map();
           if (room.producers.has(socket.id)) {
             room.producers.get(socket.id)?.set(producer.id, producer);
@@ -121,6 +131,24 @@ async function main() {
             paused: false,
           });
 
+          consumer.on("producerclose", () => {
+            console.log("closing consumer invoked for: ", consumer.id);
+            if (room.consumers.get(socket.id)?.delete(consumer.id)) {
+              console.log("Removed consumer: ", consumer.id);
+            }
+            // also emit through socket to close consumer in the client-side
+            socket.emit("removeConsumerInClient", {
+              consumerId: consumer.id,
+            });
+          });
+
+          consumer.on("transportclose", () => {
+            // emit to client to close this consumer at the client-side
+            socket.emit("removeConsumerInClient", {
+              consumerId: consumer.id,
+            });
+          });
+
           if (room.consumers.has(socket.id)) {
             room.consumers.get(socket.id)?.set(consumer.id, consumer);
           } else {
@@ -145,6 +173,20 @@ async function main() {
       callback(room.router.rtpCapabilities);
     });
 
+    socket.on("removeConsumerInServer", ({ consumerId }, callback) => {
+      const consumers = room.consumers.get(socket.id);
+      const consumer = consumers?.get(consumerId);
+      if (consumer) consumer.close();
+      consumers?.delete(consumerId);
+    });
+
+    socket.on("removeProducerInServer", ({ producerId }, callback) => {
+      const producers = room.producers.get(socket.id);
+      const producer = producers?.get(producerId);
+      if (producer) producer.close();
+      producers?.delete(producerId);
+    });
+
     socket.on("disconnect", () => {
       console.log("Client disconnected:", socket.id);
       // Close and remove transports
@@ -164,8 +206,8 @@ async function main() {
             consumer.close();
           }
         }
+        room.consumers.delete(socket.id);
       }
-      room.consumers.delete(socket.id);
 
       if (room.producers.has(socket.id)) {
         const currentProducers = room.producers.get(socket.id);
@@ -175,8 +217,8 @@ async function main() {
             producer.close();
           }
         }
+        room.producers.delete(socket.id);
       }
-      room.producers.delete(socket.id);
       // Remove producer
       // room.producers.delete(socket.id);
       // console.log("Producer removed for socket:", socket.id);
