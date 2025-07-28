@@ -1,11 +1,12 @@
 // /backend/server.ts
-import express from "express";
+import express, { Router } from "express";
 import http from "http";
 import { createSocketServer } from "./ws/ws";
 import { createMediasoupWorker } from "./mediasoup/worker";
-import { initMediasoup } from "./mediasoup/sfu";
+import { createRoom, initMediasoup } from "./mediasoup/sfu";
 import path from "path";
 import { Consumer } from "./mediasoup/types";
+import stream from "./mediasoup/stream";
 // import { initMediasoup } from "./mediasoup/sfu";
 
 const app = express();
@@ -16,7 +17,8 @@ app.use("/hls", express.static(path.join(__dirname, "/mediasoup/public/hls")));
 
 async function main() {
   const mediasoupWorker = await createMediasoupWorker();
-  const room = await initMediasoup(mediasoupWorker);
+  const router = await initMediasoup(mediasoupWorker);
+  const room = createRoom(router);
   setInterval(() => {
     console.log(
       "Producers count (/ed by 2): ",
@@ -92,6 +94,7 @@ async function main() {
 
           producer.on("transportclose", () => {
             // emit msg to client to close the producer
+            // stream(router, room, true);
             socket.emit("removeProducerInClient", {
               producerId: producer.id,
             });
@@ -185,6 +188,7 @@ async function main() {
       const producer = producers?.get(producerId);
       if (producer) producer.close();
       producers?.delete(producerId);
+      // stream(router, room, true);
     });
 
     socket.on("disconnect", () => {
@@ -219,6 +223,7 @@ async function main() {
         }
         room.producers.delete(socket.id);
       }
+      // stream(router, room, true);
       // Remove producer
       // room.producers.delete(socket.id);
       // console.log("Producer removed for socket:", socket.id);

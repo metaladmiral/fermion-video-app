@@ -52,18 +52,24 @@ const mediaCodecs: RtpCodecCapability[] = [
   },
   {
     kind: "video",
-    mimeType: "video/VP8",
+    mimeType: "video/H264",
     clockRate: 90000,
     parameters: {
-      "x-google-start-bitrate": 1000,
+      "packetization-mode": 1,
+      "profile-level-id": "42e01f",
+      "level-asymmetry-allowed": 1,
     },
   },
 ];
 
 export async function initMediasoup(worker: mediasoup.types.Worker) {
   const router = await worker.createRouter({ mediaCodecs });
-  const room = new Room(router);
-  // stream(router, room);
   console.log("Mediasoup router created with ID: ", router.id);
+  return router;
+}
+
+export function createRoom(router: mediasoup.types.Router) {
+  const room = new Room(router);
+  stream(router, room);
   return room;
 }

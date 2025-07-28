@@ -4,7 +4,7 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon"
+    "dev": "nodemon --ignore mediasoup/logs --ignore mediasoup/public --ignore mediasoup/stream.sdp"
   },
   "keywords": [],
   "author": "",
