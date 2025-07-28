@@ -1,1 +1,4 @@
 *node_modules*
+*.sdp*
+backend/mediasoup/public/*
+backend/mediasoup/logs/*
