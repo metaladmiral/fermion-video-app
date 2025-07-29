@@ -71,8 +71,10 @@ export default async function stream(
 
       sdpLines.push(`m=${mediaType} ${basePort} RTP/AVP ${payloadType}`);
       sdpLines.push(`a=rtpmap:${payloadType} ${codec}/${rateStr}`);
+      if (producer.kind == "video") {
+        sdpLines.push(`a=framerate:30`);
+      }
       sdpLines.push(`a=rtcp:${basePort + 1} IN IP4 127.0.0.1`);
-      // sdpLines.push(`a=rtcp-mux`);
       sdpLines.push(``);
 
       basePort += 2;
@@ -82,7 +84,7 @@ export default async function stream(
   if (!sdpLines.length && !streamInternvalFxn) {
     streamInternvalFxn = setInterval(() => {
       stream(router, room);
-    }, 8000);
+    }, 16000);
     return;
   } else if (!sdpLines.length && streamInternvalFxn) {
     return;
@@ -100,7 +102,7 @@ export default async function stream(
     sdpPath,
     path.join(__dirname, "public/hls")
   );
-  await new Promise((res) => setTimeout(res, 5000));
+  await new Promise((res) => setTimeout(res, 1000));
   for (const [consumerId, consumer__] of consumers.entries()) {
     await consumer__.resume();
   }
@@ -119,18 +121,32 @@ export async function spawnFFmpeg(
     "-protocol_whitelist",
     "file,udp,rtp",
     "-fflags",
-    "+genpts+igndts",
+    "+genpts",
+    "-analyzeduration",
+    "1000000",
+    "-probesize",
+    "1000000",
     "-i",
     sdpPath,
   ];
 
   if (videoStreamCount > 1) {
     console.error("BOOM BOOM");
+    const scaleHeight = 360;
+    const scaleWidth = 360;
+
+    const scaledInputs = Array.from({ length: videoStreamCount }, (_, i) => {
+      return `[0:v:${i}]scale=${scaleWidth}:${scaleHeight}[vs${i}]`;
+    });
+
     const videoInputs = Array.from(
       { length: videoStreamCount },
-      (_, i) => `[0:v:${i}]`
+      (_, i) => `[vs${i}]`
     ).join("");
-    const filter = `${videoInputs}hstack=inputs=${videoStreamCount}[v]`;
+
+    const filter = `${scaledInputs.join(
+      ";"
+    )};${videoInputs}hstack=inputs=${videoStreamCount}[v]`;
 
     args.push(
       "-filter_complex",
@@ -143,6 +159,7 @@ export async function spawnFFmpeg(
   }
 
   args.push(
+    // Re-encode video
     "-c:v",
     "libx264",
     "-preset",
@@ -153,24 +170,26 @@ export async function spawnFFmpeg(
     "baseline",
     "-level:v",
     "3.1",
+    "-r",
+    "30", // Output framerate
     "-g",
-    "30",
+    "60", // GOP = 2 sec
     "-keyint_min",
-    "15",
+    "30",
     "-sc_threshold",
     "0",
-    "-err_detect",
-    "ignore_err",
+    // Audio encoding
     "-c:a",
     "aac",
     "-ar",
     "44100",
     "-b:a",
     "128k",
+    // Output HLS
     "-f",
     "hls",
     "-hls_time",
-    "5",
+    "2",
     "-hls_list_size",
     "5",
     "-hls_flags",
