@@ -49,11 +49,13 @@ const mediaCodecs: RtpCodecCapability[] = [
     mimeType: "audio/opus",
     clockRate: 48000,
     channels: 2,
+    preferredPayloadType: 100,
   },
   {
     kind: "video",
     mimeType: "video/H264",
     clockRate: 90000,
+    preferredPayloadType: 101,
     parameters: {
       "packetization-mode": 1,
       "profile-level-id": "42e01f",
@@ -70,6 +72,6 @@ export async function initMediasoup(worker: mediasoup.types.Worker) {
 
 export function createRoom(router: mediasoup.types.Router) {
   const room = new Room(router);
-  stream(router, room);
+  stream(router, room, false);
   return room;
 }

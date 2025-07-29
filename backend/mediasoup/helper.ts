@@ -30,7 +30,10 @@ export async function gracefulProcessKill(
   return new Promise<void>((resolve) => {
     let isResolved = false;
     const forceKillTimer = setTimeout(() => {
-      if (!isResolved && process.pid) process.kill("SIGKILL");
+      if (!isResolved && process.pid) {
+        console.log("kill signal sent");
+        process.kill("SIGKILL");
+      }
     }, gracePeriodMs);
 
     const onExit = (code: number | null, signal: string | null) => {

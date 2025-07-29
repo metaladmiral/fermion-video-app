@@ -1,0 +1,653 @@
+ffmpeg version 7.0.2-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers
+  built with gcc 13.2.0 (Rev5, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      59.  8.100 / 59.  8.100
+  libavcodec     61.  3.100 / 61.  3.100
+  libavformat    61.  1.100 / 61.  1.100
+  libavdevice    61.  1.100 / 61.  1.100
+  libavfilter    10.  1.100 / 10.  1.100
+  libswscale      8.  1.100 /  8.  1.100
+  libswresample   5.  1.100 /  5.  1.100
+  libpostproc    58.  1.100 / 58.  1.100
+[sdp @ 0000021deeb811c0] RTP: dropping old packet received too late
+    Last message repeated 5 times
+[h264 @ 0000021deeb82940] Missing reference picture, default is 0
+[h264 @ 0000021deeb82940] decode_slice_header error
+[sdp @ 0000021deeb811c0] RTP: dropping old packet received too late
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[sdp @ 0000021deeb811c0] RTP: dropping old packet received too late
+    Last message repeated 1 times
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 46 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 45 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 40 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 45 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 45 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 40 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] mb_type 47 in P slice too large at 76 1
+[h264 @ 0000021deeb82940] error while decoding MB 76 1
+[h264 @ 0000021deeb82940] concealing 3493 DC, 3493 AC, 3493 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] mb_type 355 in P slice too large at 44 0
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 47 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 40 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 45 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[sdp @ 0000021deeb811c0] RTP: dropping old packet received too late
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[sdp @ 0000021deeb811c0] RTP: dropping old packet received too late
+    Last message repeated 3 times
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[sdp @ 0000021deeb811c0] RTP: dropping old packet received too late
+    Last message repeated 3 times
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[sdp @ 0000021deeb811c0] RTP: dropping old packet received too late
+    Last message repeated 6 times
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 40 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 44 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 42 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 43 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 0000021deeb82940] top block unavailable for requested intra mode
+[h264 @ 0000021deeb82940] error while decoding MB 41 0
+[h264 @ 0000021deeb82940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+ffmpeg version 7.0.2-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers
+  built with gcc 13.2.0 (Rev5, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      59.  8.100 / 59.  8.100
+  libavcodec     61.  3.100 / 61.  3.100
+  libavformat    61.  1.100 / 61.  1.100
+  libavdevice    61.  1.100 / 61.  1.100
+  libavfilter    10.  1.100 / 10.  1.100
+  libswscale      8.  1.100 /  8.  1.100
+  libswresample   5.  1.100 /  5.  1.100
+  libpostproc    58.  1.100 / 58.  1.100
+[h264 @ 000001db12f32940] Missing reference picture, default is 0
+[h264 @ 000001db12f32940] decode_slice_header error
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 50 0
+[h264 @ 000001db12f32940] concealing 3599 DC, 3599 AC, 3599 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 50 0
+[h264 @ 000001db12f32940] concealing 3599 DC, 3599 AC, 3599 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 52 0
+[h264 @ 000001db12f32940] concealing 3597 DC, 3597 AC, 3597 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 41 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 43 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 44 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 40 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 40 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 52 0
+[h264 @ 000001db12f32940] concealing 3597 DC, 3597 AC, 3597 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 44 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 48 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 44 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 42 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 54 0
+[h264 @ 000001db12f32940] concealing 3595 DC, 3595 AC, 3595 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 43 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 43 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 49 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 44 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 51 0
+[h264 @ 000001db12f32940] concealing 3598 DC, 3598 AC, 3598 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 49 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 51 0
+[h264 @ 000001db12f32940] concealing 3598 DC, 3598 AC, 3598 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 49 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 51 0
+[h264 @ 000001db12f32940] concealing 3598 DC, 3598 AC, 3598 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 71 0
+[h264 @ 000001db12f32940] concealing 3578 DC, 3578 AC, 3578 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 51 0
+[h264 @ 000001db12f32940] concealing 3598 DC, 3598 AC, 3598 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 49 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 56 0
+[h264 @ 000001db12f32940] concealing 3593 DC, 3593 AC, 3593 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 52 0
+[h264 @ 000001db12f32940] concealing 3597 DC, 3597 AC, 3597 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 48 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 53 0
+[h264 @ 000001db12f32940] concealing 3596 DC, 3596 AC, 3596 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 55 0
+[h264 @ 000001db12f32940] concealing 3594 DC, 3594 AC, 3594 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 52 0
+[h264 @ 000001db12f32940] concealing 3597 DC, 3597 AC, 3597 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 52 0
+[h264 @ 000001db12f32940] concealing 3597 DC, 3597 AC, 3597 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 52 0
+[h264 @ 000001db12f32940] concealing 3597 DC, 3597 AC, 3597 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 57 0
+[h264 @ 000001db12f32940] concealing 3592 DC, 3592 AC, 3592 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 56 0
+[h264 @ 000001db12f32940] concealing 3593 DC, 3593 AC, 3593 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 78 0
+[h264 @ 000001db12f32940] concealing 3571 DC, 3571 AC, 3571 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 50 0
+[h264 @ 000001db12f32940] concealing 3599 DC, 3599 AC, 3599 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 78 0
+[h264 @ 000001db12f32940] concealing 3571 DC, 3571 AC, 3571 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 78 0
+[h264 @ 000001db12f32940] concealing 3571 DC, 3571 AC, 3571 MV errors in P frame
+[h264 @ 000001db12f32940] cbp too large (210) at 48 1
+[h264 @ 000001db12f32940] error while decoding MB 48 1
+[h264 @ 000001db12f32940] concealing 3521 DC, 3521 AC, 3521 MV errors in P frame
+[h264 @ 000001db12f32940] negative number of zero coeffs at 11 2
+[h264 @ 000001db12f32940] error while decoding MB 11 2
+[h264 @ 000001db12f32940] concealing 3478 DC, 3478 AC, 3478 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] negative number of zero coeffs at 8 2
+[h264 @ 000001db12f32940] error while decoding MB 8 2
+[h264 @ 000001db12f32940] concealing 3481 DC, 3481 AC, 3481 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 52 0
+[h264 @ 000001db12f32940] concealing 3597 DC, 3597 AC, 3597 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 50 0
+[h264 @ 000001db12f32940] concealing 3599 DC, 3599 AC, 3599 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 49 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 53 0
+[h264 @ 000001db12f32940] concealing 3596 DC, 3596 AC, 3596 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 48 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 48 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] concealing 3596 DC, 3596 AC, 3596 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 53 0
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 49 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 49 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 49 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 51 0
+[h264 @ 000001db12f32940] concealing 3598 DC, 3598 AC, 3598 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 43 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 43 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 43 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 50 0
+[h264 @ 000001db12f32940] concealing 3599 DC, 3599 AC, 3599 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 44 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 43 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 43 0
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 44 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 47 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 46 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 45 0
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 48 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame
+[h264 @ 000001db12f32940] top block unavailable for requested intra mode
+[h264 @ 000001db12f32940] error while decoding MB 44 0
+[h264 @ 000001db12f32940] concealing 3600 DC, 3600 AC, 3600 MV errors in P frame

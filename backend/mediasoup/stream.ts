@@ -5,35 +5,56 @@ import { generateSdp } from "./helper";
 import { spawn } from "child_process";
 import path from "path";
 import { promises as fs } from "fs";
+import { ChildProcessController } from "./types";
+import { gracefulProcessKill } from "./helper";
 
 let streamInternvalFxn: ReturnType<typeof setInterval>;
+const consumers = new Map<string, mediasoup.types.Consumer>();
+let ffmpegProcessController: ChildProcessController;
 
 export default async function stream(
   router: mediasoup.types.Router,
-  room: Room
+  room: Room,
+  changeInProducers: boolean = false // checks if stream is called due to addition/removal of a producer
 ) {
+  if (changeInProducers) {
+    console.log("CHANGE IN PRODUCERS");
+    if (ffmpegProcessController) {
+      console.log("cleaning up the old ffmpeg process");
+      const a = await ffmpegProcessController.cleanup(
+        ffmpegProcessController.process
+      );
+      console.log("clean up done");
+      console.log(a);
+    }
+  }
+
   console.log("in stream");
-  let basePort = 5004; // Ensure it's even and unique
+  let basePort = Math.floor(Math.random() * (65535 - 1024 + 1)) + 1024;
   const sdpLines = [];
 
   for (const [socketid, producersMap] of room.producers) {
     for (const [producerId, producer] of producersMap) {
       const rtpTransport = await router.createPlainTransport({
         listenIp: { ip: "127.0.0.1", announcedIp: undefined },
-        rtcpMux: true,
+        rtcpMux: false,
         comedia: false,
       });
 
       await rtpTransport.connect({
-        ip: rtpTransport.tuple.localAddress,
+        ip: "127.0.0.1",
         port: basePort,
+        rtcpPort: basePort + 1,
       });
 
       const consumer = await rtpTransport.consume({
         producerId: producerId,
         rtpCapabilities: router.rtpCapabilities,
-        paused: false,
+        paused: true,
       });
+      console.log("new consumer for ffmpeg: ", consumer.id);
+
+      consumers.set(consumer.id, consumer);
 
       const payloadType = consumer.rtpParameters.codecs[0].payloadType;
       const codec = consumer.rtpParameters.codecs[0].mimeType.split("/")[1];
@@ -50,7 +71,8 @@ export default async function stream(
 
       sdpLines.push(`m=${mediaType} ${basePort} RTP/AVP ${payloadType}`);
       sdpLines.push(`a=rtpmap:${payloadType} ${codec}/${rateStr}`);
-      sdpLines.push(`a=rtcp-mux`);
+      sdpLines.push(`a=rtcp:${basePort + 1} IN IP4 127.0.0.1`);
+      // sdpLines.push(`a=rtcp-mux`);
       sdpLines.push(``);
 
       basePort += 2;
@@ -74,10 +96,20 @@ export default async function stream(
   });
 
   console.log("SdpPath: ", sdpPath);
-  spawnFFmpeg(sdpPath, path.join(__dirname, "public/hls"));
+  ffmpegProcessController = await spawnFFmpeg(
+    sdpPath,
+    path.join(__dirname, "public/hls")
+  );
+  await new Promise((res) => setTimeout(res, 5000));
+  for (const [consumerId, consumer__] of consumers.entries()) {
+    await consumer__.resume();
+  }
 }
 
-export async function spawnFFmpeg(sdpPath: string, outputDir: string) {
+export async function spawnFFmpeg(
+  sdpPath: string,
+  outputDir: string
+): Promise<ChildProcessController> {
   console.log("starting ffmpeg now");
 
   const sdpText = await fs.readFile(sdpPath, "utf-8");
@@ -93,6 +125,7 @@ export async function spawnFFmpeg(sdpPath: string, outputDir: string) {
   ];
 
   if (videoStreamCount > 1) {
+    console.error("BOOM BOOM");
     const videoInputs = Array.from(
       { length: videoStreamCount },
       (_, i) => `[0:v:${i}]`
@@ -137,11 +170,13 @@ export async function spawnFFmpeg(sdpPath: string, outputDir: string) {
     "-f",
     "hls",
     "-hls_time",
-    "2",
+    "5",
     "-hls_list_size",
     "5",
     "-hls_flags",
     "delete_segments",
+    "-use_wallclock_as_timestamps",
+    "1",
     "-avoid_negative_ts",
     "make_zero",
     "-max_muxing_queue_size",
@@ -163,5 +198,10 @@ export async function spawnFFmpeg(sdpPath: string, outputDir: string) {
     console.log(`FFmpeg exited with code ${code}`);
   });
 
-  return ffmpeg;
+  const childProcessControllerInstance: ChildProcessController = {
+    process: ffmpeg,
+    cleanup: gracefulProcessKill,
+    isRunning: true,
+  };
+  return Promise.resolve(childProcessControllerInstance);
 }

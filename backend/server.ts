@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = createSocketServer(server);
 
-app.use("/hls", express.static(path.join(__dirname, "/mediasoup/public/hls")));
+app.use("/", express.static(path.join(__dirname, "/mediasoup/public/")));
 
 async function main() {
   const mediasoupWorker = await createMediasoupWorker();
@@ -26,8 +26,6 @@ async function main() {
       " Consumer count: ",
       room.consumers.size
     );
-
-    console.log(room.consumers);
 
     const consumerList = [];
     for (const consumerObj of room.consumers.values()) {
@@ -90,9 +88,12 @@ async function main() {
           if (!transport) throw new Error("Transport not found");
           const producer = await transport.produce({ kind, rtpParameters });
 
+          console.log("new producer: " + producer.id);
+
           // room.producers.set(socket.id, producer);
 
           producer.on("transportclose", () => {
+            console.error("Producer Transport close");
             // emit msg to client to close the producer
             // stream(router, room, true);
             socket.emit("removeProducerInClient", {
@@ -110,6 +111,7 @@ async function main() {
 
           callback({ id: producer.id });
 
+          // stream(router, room, true);
           socket.broadcast.emit("newProducer", {
             producerId: producer.id,
             socketId: socket.id,
