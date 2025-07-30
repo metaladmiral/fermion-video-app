@@ -9,5 +9,11 @@
     "outDir": "dist",
     "types": ["node"]
   },
-  "include": ["server.ts", "mediasoup", "sockets", "types"]
+  "include": [
+    "src/server.ts",
+    "src/mediasoup",
+    "sockets",
+    "types",
+    "src/types.ts"
+  ]
 }

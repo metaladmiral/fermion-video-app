@@ -1,42 +1,0 @@
-ffmpeg version 7.0.2-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers
-  built with gcc 13.2.0 (Rev5, Built by MSYS2 project)
-  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
-  libavutil      59.  8.100 / 59.  8.100
-  libavcodec     61.  3.100 / 61.  3.100
-  libavformat    61.  1.100 / 61.  1.100
-  libavdevice    61.  1.100 / 61.  1.100
-  libavfilter    10.  1.100 / 10.  1.100
-  libswscale      8.  1.100 /  8.  1.100
-  libswresample   5.  1.100 /  5.  1.100
-  libpostproc    58.  1.100 / 58.  1.100
-[sdp @ 0000021e31be7740] RTP: dropping old packet received too late
-    Last message repeated 6 times
-Input #0, sdp, from 'D:\projects\webrtc\backend\mediasoup\stream.sdp':
-  Metadata:
-    title           : Mediasoup Stream
-  Duration: N/A, start: 0.000000, bitrate: N/A
-  Stream #0:0: Video: h264 (Constrained Baseline), yuv420p(progressive), 640x480, 90k tbr, 90k tbn
-  Stream #0:1: Audio: opus, 48000 Hz, stereo, fltp
-Stream mapping:
-  Stream #0:0 -> #0:0 (h264 (native) -> h264 (libx264))
-  Stream #0:1 -> #0:1 (opus (native) -> aac (native))
-Press [q] to stop, [?] for help
-[libx264 @ 0000021e31c9b640] MB rate (108000000) > level limit (108000)
-[libx264 @ 0000021e31c9b640] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
-[libx264 @ 0000021e31c9b640] profile Constrained Baseline, level 3.1, 4:2:0, 8-bit
-[libx264 @ 0000021e31c9b640] 264 - core 164 r3191 4613ac3 - H.264/MPEG-4 AVC codec - Copyleft 2003-2024 - http://www.videolan.org/x264.html - options: cabac=0 ref=1 deblock=0:0:0 analyse=0:0 me=dia subme=0 psy=1 psy_rd=1.00:0.00 mixed_ref=0 me_range=16 chroma_me=1 trellis=0 8x8dct=0 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=0 threads=7 lookahead_threads=7 sliced_threads=1 slices=7 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=0 weightp=0 keyint=30 keyint_min=15 scenecut=0 intra_refresh=0 rc=crf mbtree=0 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=0
-Output #0, hls, to 'D:\projects\webrtc\backend\mediasoup\public\hls\stream.m3u8':
-  Metadata:
-    title           : Mediasoup Stream
-    encoder         : Lavf61.1.100
-  Stream #0:0: Video: h264, yuv420p(progressive), 640x480, q=2-31, 90k fps, 90k tbn
-      Metadata:
-        encoder         : Lavc61.3.100 libx264
-      Side data:
-        cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
-  Stream #0:1: Audio: aac (LC), 44100 Hz, stereo, fltp, 128 kb/s
-      Metadata:
-        encoder         : Lavc61.3.100 aac
-frame= 1074 fps=0.0 q=17.0 size=N/A time=00:00:00.01 bitrate=N/A dup=5759 drop=0 speed=0.023x    frame= 2030 fps=1956 q=17.0 size=N/A time=00:00:00.02 bitrate=N/A dup=5759 drop=0 speed=0.0217x    frame= 3415 fps=2188 q=17.0 size=N/A time=00:00:00.03 bitrate=N/A dup=5759 drop=0 speed=0.0243x    frame= 4740 fps=2290 q=17.0 size=N/A time=00:00:00.05 bitrate=N/A dup=5759 drop=0 speed=0.0254x    [vost#0:0/libx264 @ 0000021e31c9b380] More than 1000 frames duplicated
-frame= 6043 fps=2339 q=17.0 size=N/A time=00:00:00.06 bitrate=N/A dup=11518 drop=0 speed=0.026x    frame= 7380 fps=2383 q=17.0 size=N/A time=00:00:00.08 bitrate=N/A dup=11518 drop=0 speed=0.0265x    frame= 8719 fps=2413 q=17.0 size=N/A time=00:00:00.09 bitrate=N/A dup=11518 drop=0 speed=0.0268x    frame=10048 fps=2434 q=17.0 size=N/A time=00:00:00.11 bitrate=N/A dup=11518 drop=0 speed=0.027x    frame=11370 fps=2445 q=17.0 size=N/A time=00:00:00.12 bitrate=N/A dup=11518 drop=0 speed=0.0272x    [vost#0:0/libx264 @ 0000021e31c9b380] More than 10000 frames duplicated
-frame=12729 fps=2463 q=17.0 size=N/A time=00:00:00.14 bitrate=N/A dup=17187 drop=0 speed=0.0274x    frame=13890 fps=2443 q=17.0 size=N/A time=00:00:00.15 bitrate=N/A dup=17187 drop=0 speed=0.0271x    frame=14914 fps=2409 q=23.0 size=N/A time=00:00:00.16 bitrate=N/A dup=17187 drop=0 speed=0.0268x    frame=16102 fps=2400 q=17.0 size=N/A time=00:00:00.17 bitrate=N/A dup=17187 drop=0 speed=0.0267x    frame=17205 fps=2382 q=17.0 size=N/A time=00:00:00.19 bitrate=N/A dup=24476 drop=0 speed=0.0265x    frame=18320 fps=2366 q=17.0 size=N/A time=00:00:00.20 bitrate=N/A dup=24476 drop=0 speed=0.0263x    frame=19736 fps=2388 q=17.0 size=N/A time=00:00:00.21 bitrate=N/A dup=24476 drop=0 speed=0.0265x    frame=21023 fps=2397 q=17.0 size=N/A time=00:00:00.23 bitrate=N/A dup=24476 drop=0 speed=0.0266x    frame=22326 fps=2405 q=19.0 size=N/A time=00:00:00.24 bitrate=N/A dup=24476 drop=0 speed=0.0267x    frame=23664 fps=2415 q=17.0 size=N/A time=00:00:00.26 bitrate=N/A dup=24476 drop=0 speed=0.0268x    frame=25060 fps=2430 q=17.0 size=N/A time=00:00:00.27 bitrate=N/A dup=30325 drop=0 speed=0.027x    frame=26410 fps=2437 q=17.0 size=N/A time=00:00:00.29 bitrate=N/A dup=30325 drop=0 speed=0.0271x    frame=27461 fps=2420 q=17.0 size=N/A time=00:00:00.30 bitrate=N/A dup=30325 drop=0 speed=0.0269x    frame=28819 fps=2429 q=17.0 size=N/A time=00:00:00.32 bitrate=N/A dup=30325 drop=0 speed=0.027x    frame=30101 fps=2429 q=17.0 size=N/A time=00:00:00.33 bitrate=N/A dup=30325 drop=0 speed=0.027x    frame=31403 fps=2434 q=17.0 size=N/A time=00:00:00.34 bitrate=N/A dup=35994 drop=0 speed=0.027x    frame=32670 fps=2436 q=17.0 size=N/A time=00:00:00.36 bitrate=N/A dup=35994 drop=0 speed=0.0271x    frame=34009 fps=2442 q=17.0 size=N/A time=00:00:00.37 bitrate=N/A dup=35994 drop=0 speed=0.0271x    frame=35321 fps=2446 q=17.0 size=N/A time=00:00:00.39 bitrate=N/A dup=35994 drop=0 speed=0.0272x    frame=36730 fps=2454 q=17.0 size=N/A time=00:00:00.40 bitrate=N/A dup=41753 drop=0 speed=0.0273x    frame=37871 fps=2448 q=17.0 size=N/A time=00:00:00.42 bitrate=N/A dup=41753 drop=0 speed=0.0272x    frame=38813 fps=2427 q=17.0 size=N/A time=00:00:00.43 bitrate=N/A dup=41753 drop=0 speed=0.027x    frame=39667 fps=2403 q=18.0 size=N/A time=00:00:00.44 bitrate=N/A dup=41753 drop=0 speed=0.0267x    frame=40530 fps=2381 q=17.0 size=N/A time=00:00:00.45 bitrate=N/A dup=41753 drop=0 speed=0.0265x    frame=41424 fps=2363 q=17.0 size=N/A time=00:00:00.46 bitrate=N/A dup=41753 drop=0 speed=0.0263x    frame=42397 fps=2348 q=18.0 size=N/A time=00:00:00.47 bitrate=N/A dup=47422 drop=0 speed=0.0261x    frame=43230 fps=2329 q=17.0 size=N/A time=00:00:00.48 bitrate=N/A dup=47422 drop=0 speed=0.0259x    frame=44241 fps=2319 q=17.0 size=N/A time=00:00:00.49 bitrate=N/A dup=47422 drop=0 speed=0.0258x    frame=45242 fps=2308 q=26.0 size=N/A time=00:00:00.50 bitrate=N/A dup=47422 drop=0 speed=0.0256x    frame=46217 fps=2298 q=17.0 size=N/A time=00:00:00.51 bitrate=N/A dup=47422 drop=0 speed=0.0255x    frame=47233 fps=2289 q=17.0 size=N/A time=00:00:00.52 bitrate=N/A dup=47422 drop=0 speed=0.0254x    frame=48264 fps=2283 q=17.0 size=N/A time=00:00:00.53 bitrate=N/A dup=53271 drop=0 speed=0.0254x    frame=49220 fps=2273 q=17.0 size=N/A time=00:00:00.54 bitrate=N/A dup=53271 drop=0 speed=0.0253x    

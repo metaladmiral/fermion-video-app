@@ -47,7 +47,7 @@ export default function WatchPage() {
         id="video"
         className="w-[350px] md:w-[520px] lg:w-[850px]"
         ref={video}
-        autoPlay
+        autoPlay={true}
         controls
       ></video>
     </>
