@@ -6,12 +6,14 @@ import {
   ConsumerMap,
   RtpConsumersForFfmpeg,
   ProducersInFfmpeg,
+  TransportMap,
 } from "../types";
 import { ChildProcessController } from "../helper";
+import { Socket } from "socket.io";
 
 export class Room {
   router: mediasoup.types.Router;
-  transports: Map<string, mediasoup.types.WebRtcTransport>;
+  transports: TransportMap;
   producers: ProducerMap;
   consumers: ConsumerMap;
 
@@ -32,11 +34,13 @@ export class Room {
     this.shouldDelayFfmpegCall = false;
   }
 
-  async createWebRtcTransport() {
+  async createWebRtcTransport(socketId: string) {
     const transport = await this.router.createWebRtcTransport(
       mediasoupConfig.webRtcTransport
     );
-    this.transports.set(transport.id, transport);
+    const transportIdMap = new Map();
+    transportIdMap.set(transport.id, transport);
+    this.transports.set(socketId, transportIdMap);
 
     transport.on("dtlsstatechange", (dtlsState) => {
       if (dtlsState === "closed") {
@@ -56,8 +60,8 @@ export class Room {
     };
   }
 
-  getTransport(id: string) {
-    return this.transports.get(id);
+  getTransport(socketId: string, transportId: string) {
+    return this.transports.get(socketId)?.get(transportId);
   }
 }
 
