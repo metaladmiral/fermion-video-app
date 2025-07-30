@@ -8,7 +8,12 @@ import { delayFfmpegRun } from "./helper";
 import cors from "cors";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://fermion.erpzen.in",
+    credentials: true,
+  })
+);
 const server = http.createServer(app);
 const io = createSocketServer(server);
 
