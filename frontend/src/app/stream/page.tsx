@@ -2,9 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import * as mediasoupClient from "mediasoup-client";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 type TransportResponse = {
   param?: {
@@ -33,7 +30,7 @@ export default function StreamPage() {
 
   useEffect(() => {
     const socket = io(
-      process.env.BACKEND_SERVER_URL || "http://localhost:3001",
+      process.env.NEXT_PUBLIC_BACKEND_SERVER_URL || "http://localhost:3001",
       {
         path: "/ws",
       }
