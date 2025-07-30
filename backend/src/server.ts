@@ -57,7 +57,7 @@ async function main() {
 
     socket.on("createTransport", async (_, callback) => {
       try {
-        const { param } = await room.createWebRtcTransport();
+        const { param } = await room.createWebRtcTransport(socket.id);
         callback({ param });
       } catch (error) {
         console.error("Error creating transport:", error);
@@ -69,7 +69,7 @@ async function main() {
       "connectTransport",
       async ({ transportId, dtlsParameters }, callback) => {
         try {
-          const transport = room.getTransport(transportId);
+          const transport = room.getTransport(socket.id, transportId);
           if (!transport) throw new Error("Transport not found");
           await transport.connect({ dtlsParameters });
           callback({ success: true });
@@ -85,7 +85,7 @@ async function main() {
         try {
           delayFfmpegRun(room);
 
-          const transport = room.getTransport(transportId);
+          const transport = room.getTransport(socket.id, transportId);
           if (!transport) throw new Error("Transport not found");
           const producer = await transport.produce({ kind, rtpParameters });
 
@@ -129,7 +129,7 @@ async function main() {
       "consume",
       async ({ producerId, transportId, rtpCapabilities }, callback) => {
         try {
-          const transport = room.getTransport(transportId);
+          const transport = room.getTransport(socket.id, transportId);
           if (!transport) throw new Error("Transport not found");
           const consumer = await transport.consume({
             producerId,
@@ -196,40 +196,33 @@ async function main() {
 
     socket.on("disconnect", () => {
       console.log("Client disconnected:", socket.id);
+
       // Close and remove transports
-      const transport = room.transports.get(socket.id);
-      if (transport) {
-        transport.close();
-        room.transports.delete(socket.id);
-        console.log("Transport closed for socket:", socket.id);
+      const currentTransports = room.consumers.get(socket.id);
+      if (currentTransports) {
+        for (const transport of currentTransports.values()) {
+          transport.close();
+        }
       }
+      room.transports.delete(socket.id);
 
       // Close and remove consumers
-      if (room.consumers.has(socket.id)) {
-        const currentConsumers = room.consumers.get(socket.id);
-
-        if (currentConsumers) {
-          for (const consumer of currentConsumers.values()) {
-            consumer.close();
-          }
+      const currentConsumers = room.consumers.get(socket.id);
+      if (currentConsumers) {
+        for (const consumer of currentConsumers.values()) {
+          consumer.close();
         }
-        room.consumers.delete(socket.id);
       }
+      room.consumers.delete(socket.id);
 
-      if (room.producers.has(socket.id)) {
-        const currentProducers = room.producers.get(socket.id);
-
-        if (currentProducers) {
-          for (const producer of currentProducers.values()) {
-            producer.close();
-          }
+      // Close and remove producers
+      const currentProducers = room.producers.get(socket.id);
+      if (currentProducers) {
+        for (const producer of currentProducers.values()) {
+          producer.close();
         }
-        room.producers.delete(socket.id);
       }
-      // stream(router, room, true);
-      // Remove producer
-      // room.producers.delete(socket.id);
-      // console.log("Producer removed for socket:", socket.id);
+      room.producers.delete(socket.id);
     });
   });
 
