@@ -5,3 +5,4 @@ backend/public/hls/*.ts
 *.m3u8*
 *ignore*
 /frontend/.env
+*dist*
