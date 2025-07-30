@@ -38,7 +38,8 @@ export class Room {
     const transport = await this.router.createWebRtcTransport(
       mediasoupConfig.webRtcTransport
     );
-    const transportIdMap = new Map();
+    console.log("created transport Id: ", transport.id);
+    const transportIdMap = this.transports.get(socketId) || new Map();
     transportIdMap.set(transport.id, transport);
     this.transports.set(socketId, transportIdMap);
 
