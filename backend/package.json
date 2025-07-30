@@ -1,10 +1,10 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "server.ts",
+  "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --ignore mediasoup/logs --ignore mediasoup/public --ignore mediasoup/stream.sdp"
+    "dev": "nodemon --ignore ./logs --ignore ./public --ignore ./stream.sdp"
   },
   "keywords": [],
   "author": "",
