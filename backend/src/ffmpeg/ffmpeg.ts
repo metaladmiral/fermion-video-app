@@ -26,7 +26,6 @@ export async function spawnFFmpeg(
   ];
 
   if (videoStreamCount > 1) {
-    console.error("BOOM BOOM");
     const scaleHeight = 360;
     const scaleWidth = 360;
 
