@@ -83,7 +83,7 @@ export async function spawnFFmpeg(
     "-f",
     "hls",
     "-hls_time",
-    "2",
+    "5",
     "-hls_list_size",
     "5",
     "-hls_flags",

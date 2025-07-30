@@ -17,19 +17,31 @@ export default function WatchPage() {
     const m3u8Source = `http://${host}:${port}/hls/stream.m3u8`;
 
     const hlsSupported = Hls.isSupported();
+    let hls: Hls;
 
     if (hlsSupported && video.current) {
-      const hls = new Hls();
+      hls = new Hls();
       hls.loadSource(m3u8Source);
       hls.attachMedia(video.current);
 
-      hls.on(Hls.Events.ERROR, function () {
-        console.log();
-        setIsVideoWorking(false);
+      hls.on(Hls.Events.ERROR, function (event, data) {
+        console.log(data);
+
+        if (data.type == Hls.ErrorTypes.MEDIA_ERROR) {
+          setIsVideoWorking(!isVideoWorking);
+        } else {
+          setIsVideoWorking(false);
+        }
       });
 
-      setIsVideoWorking(true);
-      //   hls.on(Hls.Events.)
+      hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+        console.log("parsed");
+        setIsVideoWorking(true);
+      });
+
+      return () => {
+        hls.destroy();
+      };
     } else if (video.current?.canPlayType("application/vnd.apple.mpegurl")) {
       video.current.src = m3u8Source;
     } else {
@@ -39,6 +51,13 @@ export default function WatchPage() {
 
   return (
     <>
+      <br />
+      Status:{" "}
+      {isVideoWorking ? (
+        <span style={{ color: "green" }}>LIVE</span>
+      ) : (
+        <span style={{ color: "red" }}>NOT LIVE</span>
+      )}
       <br />
       <span>/watch route (watch live stream)</span>
       <br />

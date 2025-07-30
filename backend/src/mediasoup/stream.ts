@@ -9,6 +9,7 @@ import {
 import path from "path";
 import { deepEqual } from "fast-equals";
 import { spawnFFmpeg } from "../ffmpeg/ffmpeg";
+import { unlink } from "fs/promises";
 
 const CONSUMER_RESUME_DELAY_MS = 1000;
 
@@ -38,7 +39,7 @@ export default async function startLiveStream(
   room.producersInFfmpeg = new Map(room.producers);
 
   // clean-up if there is already a ffmpeg process
-  if (room.ffmpegProcessController) {
+  if (room.ffmpegProcessController?.process) {
     console.log("cleaning up the old ffmpeg process");
     await room.ffmpegProcessController.cleanup();
     cleanupRtpConsumers(room);
@@ -83,6 +84,11 @@ export default async function startLiveStream(
 
   if (!sdpLines.length) {
     console.log("No producers yet!");
+    if (!room.ffmpegProcessController?.process) {
+      // deleting helps the frontend to show if its live or not
+      console.log("no process... deleted stream.m3u8 if exists");
+      await unlink(path.join(__dirname, "../../public/hls/stream.m3u8"));
+    }
     return;
   }
 

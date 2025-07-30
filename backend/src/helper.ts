@@ -47,7 +47,7 @@ export async function generateSdp({ sdpParams }: { sdpParams: string[] }) {
 }
 
 export class ChildProcessController {
-  process: ChildProcess;
+  process: ChildProcess | null;
   constructor(process: ChildProcess) {
     this.process = process;
   }
@@ -55,6 +55,7 @@ export class ChildProcessController {
   async cleanup() {
     if (this.process && !this.process.killed) {
       await gracefulProcessKill(this.process);
+      this.process = null;
     }
   }
 }
