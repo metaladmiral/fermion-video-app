@@ -1,33 +1,53 @@
 import * as mediasoup from "mediasoup";
 import { Room } from "./sfu";
 import { Producer } from "./types";
-import { generateSdp } from "./helper";
+import { cleanupRtpConsumers, generateSdp } from "./helper";
 import { spawn } from "child_process";
 import path from "path";
 import { promises as fs } from "fs";
 import { ChildProcessController } from "./types";
 import { gracefulProcessKill } from "./helper";
+import { deepEqual } from "fast-equals";
 
 let streamInternvalFxn: ReturnType<typeof setInterval>;
-const consumers = new Map<string, mediasoup.types.Consumer>();
-let ffmpegProcessController: ChildProcessController;
+// const consumers = new Map<string, mediasoup.types.Consumer>();
+let producersInFfmpeg = new Map();
 
 export default async function stream(
   router: mediasoup.types.Router,
-  room: Room,
-  changeInProducers: boolean = false // checks if stream is called due to addition/removal of a producer
+  room: Room
+  // changeInProducers: boolean = false // checks if stream is called due to addition/removal of a producer
 ) {
-  if (changeInProducers) {
-    console.log("CHANGE IN PRODUCERS");
-    if (ffmpegProcessController) {
-      console.log("cleaning up the old ffmpeg process");
-      const a = await ffmpegProcessController.cleanup(
-        ffmpegProcessController.process
-      );
-      console.log("clean up done");
-      console.log(a);
-    }
+  // check if any producer is added or removed.
+  const changeInProducer = !deepEqual(room.producers, producersInFfmpeg);
+  if (
+    !changeInProducer ||
+    room.delayFfmpeg // to tackle race condition when multiple producers come in a very short span and ffmpeg runs in b/w then - ignoring one of the producers. Can happen mostly with audio producers.
+  ) {
+    console.log(
+      "aborting stream() fxn call, CIP:",
+      changeInProducer,
+      " delay:",
+      room.delayFfmpeg
+    );
+    return;
   }
+
+  producersInFfmpeg = new Map(room.producers);
+
+  // if (changeInProducers) {
+  //   console.log("CHANGE IN PRODUCERS");
+  if (room.ffmpegProcessController) {
+    console.log("cleaning up the old ffmpeg process");
+    const a = await room.ffmpegProcessController.cleanup(
+      room.ffmpegProcessController.process
+    );
+    cleanupRtpConsumers(room);
+
+    console.log("clean up done");
+    console.log(a);
+  }
+  // }
 
   console.log("in stream");
   let basePort = Math.floor(Math.random() * (65535 - 1024 + 1)) + 1024;
@@ -54,7 +74,7 @@ export default async function stream(
       });
       console.log("new consumer for ffmpeg: ", consumer.id);
 
-      consumers.set(consumer.id, consumer);
+      room.rtpConsumersForFfmpeg.set(consumer.id, consumer);
 
       const payloadType = consumer.rtpParameters.codecs[0].payloadType;
       const codec = consumer.rtpParameters.codecs[0].mimeType.split("/")[1];
@@ -81,16 +101,21 @@ export default async function stream(
     }
   }
 
-  if (!sdpLines.length && !streamInternvalFxn) {
-    streamInternvalFxn = setInterval(() => {
-      stream(router, room);
-    }, 16000);
+  if (!sdpLines.length) {
+    console.log("No producers yet!");
     return;
-  } else if (!sdpLines.length && streamInternvalFxn) {
-    return;
-  } else {
-    clearInterval(streamInternvalFxn);
   }
+
+  // if (!sdpLines.length && !streamInternvalFxn) {
+  //   streamInternvalFxn = setInterval(() => {
+  //     stream(router, room);
+  //   }, 16000);
+  //   return;
+  // } else if (!sdpLines.length && streamInternvalFxn) {
+  //   return;
+  // } else {
+  //   clearInterval(streamInternvalFxn);
+  // }
 
   // generate sdp
   const sdpPath = await generateSdp({
@@ -98,12 +123,12 @@ export default async function stream(
   });
 
   console.log("SdpPath: ", sdpPath);
-  ffmpegProcessController = await spawnFFmpeg(
+  room.ffmpegProcessController = await spawnFFmpeg(
     sdpPath,
     path.join(__dirname, "public/hls")
   );
   await new Promise((res) => setTimeout(res, 1000));
-  for (const [consumerId, consumer__] of consumers.entries()) {
+  for (const [_, consumer__] of room.rtpConsumersForFfmpeg.entries()) {
     await consumer__.resume();
   }
 }

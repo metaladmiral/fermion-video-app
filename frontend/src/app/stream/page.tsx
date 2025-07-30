@@ -244,7 +244,7 @@ export default function StreamPage() {
         });
 
         socket.emit("getProducers", {}, async (existingProducers: any[]) => {
-          await new Promise((resolve) => setTimeout(resolve, 2500));
+          await new Promise((resolve) => setTimeout(resolve, 3500));
           existingProducers.forEach(({ producerId, kind }) => {
             consumeProducer(producerId, kind, recvTransportLocal);
           });

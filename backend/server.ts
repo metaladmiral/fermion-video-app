@@ -7,9 +7,12 @@ import { createRoom, initMediasoup } from "./mediasoup/sfu";
 import path from "path";
 import { Consumer } from "./mediasoup/types";
 import stream from "./mediasoup/stream";
+import { delayFfmpegRun } from "./mediasoup/helper";
 // import { initMediasoup } from "./mediasoup/sfu";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
 const server = http.createServer(app);
 const io = createSocketServer(server);
 
@@ -84,6 +87,8 @@ async function main() {
       "produce",
       async ({ transportId, kind, rtpParameters }, callback) => {
         try {
+          delayFfmpegRun(room);
+
           const transport = room.getTransport(transportId);
           if (!transport) throw new Error("Transport not found");
           const producer = await transport.produce({ kind, rtpParameters });
@@ -232,7 +237,7 @@ async function main() {
     });
   });
 
-  server.listen(3001, () => {
+  server.listen(3001, "0.0.0.0", () => {
     console.log("✅ SFU backend running on http://localhost:3001");
   });
 }

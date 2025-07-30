@@ -2,17 +2,31 @@ import * as mediasoup from "mediasoup";
 import { RtpCodecCapability } from "mediasoup/node/lib/rtpParametersTypes";
 import { config } from "./config";
 import stream from "./stream";
-import { Producer, Consumer } from "./types";
+import {
+  Producer,
+  Consumer,
+  ChildProcessController,
+  rtpConsumerForFfmpeg,
+} from "./types";
 export class Room {
   router: mediasoup.types.Router;
   transports: Map<string, mediasoup.types.WebRtcTransport>;
   producers: Producer;
   consumers: Consumer;
+
+  ffmpegProcessController: ChildProcessController | null;
+  rtpConsumersForFfmpeg: rtpConsumerForFfmpeg;
+  delayFfmpeg: Boolean;
+
   constructor(router: mediasoup.types.Router) {
     this.router = router;
     this.transports = new Map();
     this.producers = new Map();
     this.consumers = new Map();
+
+    this.ffmpegProcessController = null;
+    this.rtpConsumersForFfmpeg = new Map();
+    this.delayFfmpeg = false;
   }
   async createWebRtcTransport() {
     const transport = await this.router.createWebRtcTransport(
@@ -72,6 +86,8 @@ export async function initMediasoup(worker: mediasoup.types.Worker) {
 
 export function createRoom(router: mediasoup.types.Router) {
   const room = new Room(router);
-  stream(router, room, false);
+  setInterval(() => {
+    stream(router, room);
+  }, 8000);
   return room;
 }

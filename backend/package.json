@@ -20,6 +20,9 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "fast-equals": "^5.2.2",
+    "lodash-types": "^4.17.1",
     "mediasoup": "^3.16.7",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"

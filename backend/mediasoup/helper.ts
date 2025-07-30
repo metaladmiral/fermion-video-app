@@ -1,6 +1,7 @@
 import path from "path";
 import { promises as fs } from "fs";
 import { ChildProcess } from "child_process";
+import { Room } from "./sfu";
 
 export async function generateSdp({ sdpParams }: { sdpParams: string[] }) {
   // Generate a proper SDP with correct formatting
@@ -51,4 +52,15 @@ export async function gracefulProcessKill(
 
     process.kill("SIGTERM");
   });
+}
+
+export function cleanupRtpConsumers(room: Room) {
+  room.rtpConsumersForFfmpeg.clear();
+}
+
+export async function delayFfmpegRun(room: Room) {
+  room.delayFfmpeg = true;
+  setTimeout(() => {
+    room.delayFfmpeg = false;
+  }, 3000);
 }
