@@ -9,7 +9,7 @@ export const mediasoupConfig: {
     listenIps: [
       {
         ip: "0.0.0.0",
-        announcedIp: "https://fermion-backend.erpzen.in",
+        announcedIp: "fermion-backend.erpzen.in",
       },
     ],
     initialAvailableOutgoingBitrate: 1000000,
