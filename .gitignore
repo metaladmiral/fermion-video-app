@@ -6,3 +6,5 @@ backend/public/hls/*.ts
 *ignore*
 /frontend/.env
 *dist*
+
+*.env*
