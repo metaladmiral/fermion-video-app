@@ -35,6 +35,19 @@ export default function WatchPage() {
         setIsVideoWorking(true);
       });
 
+      hls.on(Hls.Events.LEVEL_LOADED, function (event, data) {
+        const isLive = data.details.live;
+        if (!isLive) {
+          console.log("Stream ended. Restarting HLS in 5 seconds...");
+
+          hls.destroy();
+
+          setTimeout(() => {
+            setIsVideoWorking((prev) => !prev); // triggers re-run of useEffect
+          }, 5000);
+        }
+      });
+
       return () => {
         hls.destroy();
       };
