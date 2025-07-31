@@ -11,6 +11,7 @@ export async function spawnFFmpeg(
 
   const sdpText = await fs.readFile(sdpPath, "utf-8");
   const videoStreamCount = (sdpText.match(/^m=video /gm) || []).length;
+  const audioStreamCount = (sdpText.match(/^m=audio /gm) || []).length;
 
   const args = [
     "-protocol_whitelist",
@@ -42,9 +43,9 @@ export async function spawnFFmpeg(
       ";"
     )};${videoInputs}hstack=inputs=${videoStreamCount}[v]`;
 
-    const audioMaps = Array.from({ length: videoStreamCount }, (_, i) => [
+    const audioMaps = Array.from({ length: audioStreamCount }, (_, i) => [
       "-map",
-      `0:a:${i}?`,
+      `0:a:${i}`,
     ]).flat();
 
     args.push("-filter_complex", filter, "-map", "[v]", ...audioMaps);
