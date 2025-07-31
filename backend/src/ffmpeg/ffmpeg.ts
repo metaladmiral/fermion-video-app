@@ -38,17 +38,16 @@ export async function spawnFFmpeg(
       { length: videoStreamCount },
       (_, i) => `[vs${i}]`
     ).join("");
+    const audioInputs = Array.from(
+      { length: audioStreamCount },
+      (_, i) => `[0:a:${i}]`
+    ).join("");
 
     const filter = `${scaledInputs.join(
       ";"
-    )};${videoInputs}hstack=inputs=${videoStreamCount}[v]`;
+    )};${videoInputs}hstack=inputs=${videoStreamCount}[v];${audioInputs}amix=inputs=${audioStreamCount}:duration=longest[a]`;
 
-    const audioMaps = Array.from({ length: audioStreamCount }, (_, i) => [
-      "-map",
-      `0:a:${i}`,
-    ]).flat();
-
-    args.push("-filter_complex", filter, "-map", "[v]", ...audioMaps);
+    args.push("-filter_complex", filter, "-map", "[v]", "-map", "[a]");
   }
 
   args.push(
