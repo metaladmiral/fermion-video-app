@@ -105,6 +105,10 @@ export default async function startLiveStream(
   );
   await new Promise((res) => setTimeout(res, CONSUMER_RESUME_DELAY_MS));
   for (const rtpConsumer of room.rtpConsumersForFfmpeg.values()) {
-    await rtpConsumer.resume();
+    try {
+      await rtpConsumer.resume();
+    } catch (err) {
+      console.log("error resuming consumer");
+    }
   }
 }

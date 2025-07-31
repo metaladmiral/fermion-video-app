@@ -1,5 +1,12 @@
 import * as mediasoup from "mediasoup";
 import { RtpCodecCapability } from "mediasoup/node/lib/rtpParametersTypes";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const DEPLOYMENT = process.env.DEPLOYMENT_ENV || "DEV";
+const PUBLIC_DOMAIN = process.env.PROD_DOMAIN || "fermion-backend.erpzen.in";
+const ANNOUNCED_IP = DEPLOYMENT == "DEV" ? "127.0.0.1" : PUBLIC_DOMAIN;
 
 export const mediasoupConfig: {
   webRtcTransport: mediasoup.types.WebRtcTransportOptions;
@@ -9,7 +16,7 @@ export const mediasoupConfig: {
     listenIps: [
       {
         ip: "0.0.0.0",
-        announcedIp: "fermion-backend.erpzen.in",
+        announcedIp: ANNOUNCED_IP, // 127.0.0.1 for local, Public IP/Domain for prod
       },
     ],
     initialAvailableOutgoingBitrate: 1000000,
