@@ -42,14 +42,12 @@ export async function spawnFFmpeg(
       ";"
     )};${videoInputs}hstack=inputs=${videoStreamCount}[v]`;
 
-    args.push(
-      "-filter_complex",
-      filter,
+    const audioMaps = Array.from({ length: videoStreamCount }, (_, i) => [
       "-map",
-      "[v]",
-      "-map",
-      "0:a?" // optional audio
-    );
+      `0:a:${i}?`,
+    ]).flat();
+
+    args.push("-filter_complex", filter, "-map", "[v]", ...audioMaps);
   }
 
   args.push(
