@@ -70,6 +70,17 @@ export default function WatchPage() {
       <br />
       <span>/watch route (watch live stream)</span>
       <br />
+      <span className="text-xs text-gray-500">
+        After accessing the /stream route for the first time, just wait 10-12
+        seconds and then refresh this page due to delay from ffmpeg and chunck
+        building.
+      </span>
+      <br />
+      <span className="text-xs text-gray-500">
+        You are not required to refresh again if more users join or leave on
+        /stream. It automatically manages that.
+      </span>
+      <br />
       <br />
       <video
         id="video"
