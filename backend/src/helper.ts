@@ -95,6 +95,9 @@ export async function gracefulProcessKill(
 }
 
 export function cleanupRtpConsumers(room: Room) {
+  for (const [_, consumer] of room.rtpConsumersForFfmpeg) {
+    consumer.close();
+  }
   room.rtpConsumersForFfmpeg.clear();
 }
 
