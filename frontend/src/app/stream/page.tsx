@@ -63,7 +63,6 @@ export default function StreamPage() {
     };
   }, []);
 
-  // producer logic
   useEffect(() => {
     if (!socket) {
       return;
@@ -76,101 +75,106 @@ export default function StreamPage() {
           const d = new mediasoupClient.Device();
           await d.load({ routerRtpCapabilities: capabilities });
           setDevice(d);
-
-          socket.emit("createTransport", {}, (response: TransportResponse) => {
-            if (response.param) {
-              const sendTransport = d.createSendTransport({
-                id: response.param.id,
-                iceParameters: response.param.iceParameters,
-                iceCandidates: response.param.iceCandidates,
-                dtlsParameters: response.param.dtlsParameters,
-              });
-
-              sendTransport.on(
-                "connect",
-                async ({ dtlsParameters }, callback, errback) => {
-                  socket.emit(
-                    "connectTransport",
-                    { transportId: sendTransport.id, dtlsParameters },
-                    (response: { success: boolean }) => {
-                      if (response.success) {
-                        callback();
-                      } else {
-                        errback(new Error("Failed to connect transport"));
-                      }
-                    }
-                  );
-                }
-              );
-
-              sendTransport.on(
-                "produce",
-                ({ kind, rtpParameters }, callback, errback) => {
-                  socket.emit(
-                    "produce",
-                    { transportId: sendTransport.id, kind, rtpParameters },
-                    (response: ProduceSocketCallbackResponse) => {
-                      if (response.error) {
-                        errback(new Error(response.error));
-                      } else {
-                        if (response.id) {
-                          callback({ id: response.id });
-                        }
-                      }
-                    }
-                  );
-                }
-              );
-
-              navigator.mediaDevices
-                .getUserMedia({ video: true, audio: true })
-                .then(async (stream) => {
-                  const videoTrack = stream.getVideoTracks()[0];
-                  const audioTrack = stream.getAudioTracks()[0];
-
-                  // Produce video
-                  if (videoTrack) {
-                    try {
-                      const producer = await sendTransport.produce({
-                        track: videoTrack,
-                      });
-                      producerMap.current.set(producer.id, producer);
-                      producer.on("transportclose", () => {
-                        socket.emit("removeProducerInServer", {
-                          producerId: producer.id,
-                        });
-                      });
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }
-                  // Produce audio
-                  if (audioTrack) {
-                    try {
-                      const producer = await sendTransport.produce({
-                        track: audioTrack,
-                      });
-                      producerMap.current.set(producer.id, producer);
-                      producer.on("transportclose", () => {
-                        socket.emit("removeProducerInServer", {
-                          producerId: producer.id,
-                        });
-                      });
-                    } catch (err) {
-                      console.error(err);
-                    }
-                  }
-                });
-            } else {
-              console.error("Transport error:", response.error);
-            }
-          });
         }
       );
     };
 
     loadDevice();
   }, [socket]);
+
+  // producer logic
+  useEffect(() => {
+    if (!socket || !device) return;
+
+    socket.emit("createTransport", {}, (response: TransportResponse) => {
+      if (response.param) {
+        const sendTransport = device.createSendTransport({
+          id: response.param.id,
+          iceParameters: response.param.iceParameters,
+          iceCandidates: response.param.iceCandidates,
+          dtlsParameters: response.param.dtlsParameters,
+        });
+
+        sendTransport.on(
+          "connect",
+          async ({ dtlsParameters }, callback, errback) => {
+            socket.emit(
+              "connectTransport",
+              { transportId: sendTransport.id, dtlsParameters },
+              (response: { success: boolean }) => {
+                if (response.success) {
+                  callback();
+                } else {
+                  errback(new Error("Failed to connect transport"));
+                }
+              }
+            );
+          }
+        );
+
+        sendTransport.on(
+          "produce",
+          ({ kind, rtpParameters }, callback, errback) => {
+            socket.emit(
+              "produce",
+              { transportId: sendTransport.id, kind, rtpParameters },
+              (response: ProduceSocketCallbackResponse) => {
+                if (response.error) {
+                  errback(new Error(response.error));
+                } else {
+                  if (response.id) {
+                    callback({ id: response.id });
+                  }
+                }
+              }
+            );
+          }
+        );
+
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then(async (stream) => {
+            const videoTrack = stream.getVideoTracks()[0];
+            const audioTrack = stream.getAudioTracks()[0];
+
+            // Produce video
+            if (videoTrack) {
+              try {
+                const producer = await sendTransport.produce({
+                  track: videoTrack,
+                });
+                producerMap.current.set(producer.id, producer);
+                producer.on("transportclose", () => {
+                  socket.emit("removeProducerInServer", {
+                    producerId: producer.id,
+                  });
+                });
+              } catch (err) {
+                console.error(err);
+              }
+            }
+            // Produce audio
+            if (audioTrack) {
+              try {
+                const producer = await sendTransport.produce({
+                  track: audioTrack,
+                });
+                producerMap.current.set(producer.id, producer);
+                producer.on("transportclose", () => {
+                  socket.emit("removeProducerInServer", {
+                    producerId: producer.id,
+                  });
+                });
+              } catch (err) {
+                console.error(err);
+              }
+            }
+          });
+      } else {
+        console.error("Transport error:", response.error);
+      }
+    });
+  }, [socket, device]);
 
   // consumer logic
   const consumeProducer = async (
