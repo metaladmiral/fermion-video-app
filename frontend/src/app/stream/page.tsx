@@ -50,19 +50,12 @@ export default function StreamPage() {
 
     setSocket(socket);
 
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        if (localVideoRef.current) {
-          localVideoRef.current.srcObject = stream;
-        }
-      });
-
     return () => {
       socket.disconnect();
     };
   }, []);
 
+  // load mediasoup device
   useEffect(() => {
     if (!socket) {
       return;
@@ -149,6 +142,10 @@ export default function StreamPage() {
                     producerId: producer.id,
                   });
                 });
+
+                if (localVideoRef.current) {
+                  localVideoRef.current.srcObject = stream;
+                }
               } catch (err) {
                 console.error(err);
               }
@@ -177,65 +174,65 @@ export default function StreamPage() {
   }, [socket, device]);
 
   // consumer logic
-  const consumeProducer = async (
-    producerId: string,
-    kind: string,
-    transport: mediasoupClient.types.Transport
-  ) => {
-    if (!socket || !device) return;
-
-    socket.emit(
-      "consume",
-      {
-        producerId,
-        transportId: transport.id,
-        rtpCapabilities: device.rtpCapabilities,
-      },
-      async (params: ConsumeSocketCallbackResponse) => {
-        if (
-          params.error ||
-          !params.kind ||
-          !params.rtpParameters ||
-          !params.producerId ||
-          !params.id
-        ) {
-          console.log("Consume error: ", params.error);
-          return;
-        }
-
-        const consumerId = params.id;
-        const producerId = params.producerId;
-        const kind = params.kind;
-        const rtpParameters = params.rtpParameters;
-
-        const consumer = await transport.consume({
-          id: consumerId,
-          producerId: producerId,
-          kind: kind,
-          rtpParameters: rtpParameters,
-        });
-
-        consumerMap.current.set(consumer.id, consumer);
-        consumer.on("transportclose", () => {
-          socket.emit("removeConsumerInServer", { consumerId: consumer.id });
-        });
-
-        consumer.resume();
-        const stream = new MediaStream([consumer.track]);
-        setRemoteStreams((prev) => {
-          const newMap = new Map(prev);
-          newMap.set(consumer.id, {
-            kind: kind,
-            stream: stream,
-          });
-          return newMap;
-        });
-      }
-    );
-  };
-
   useEffect(() => {
     if (!socket || !device) return;
+
+    const consumeProducer = async (
+      producerId: string,
+      kind: string,
+      transport: mediasoupClient.types.Transport
+    ) => {
+      if (!socket || !device) return;
+
+      socket.emit(
+        "consume",
+        {
+          producerId,
+          transportId: transport.id,
+          rtpCapabilities: device.rtpCapabilities,
+        },
+        async (params: ConsumeSocketCallbackResponse) => {
+          if (
+            params.error ||
+            !params.kind ||
+            !params.rtpParameters ||
+            !params.producerId ||
+            !params.id
+          ) {
+            console.log("Consume error: ", params.error);
+            return;
+          }
+
+          const consumerId = params.id;
+          const producerId = params.producerId;
+          const kind = params.kind;
+          const rtpParameters = params.rtpParameters;
+
+          const consumer = await transport.consume({
+            id: consumerId,
+            producerId: producerId,
+            kind: kind,
+            rtpParameters: rtpParameters,
+          });
+
+          consumerMap.current.set(consumer.id, consumer);
+          consumer.on("transportclose", () => {
+            socket.emit("removeConsumerInServer", { consumerId: consumer.id });
+          });
+
+          consumer.resume();
+          const stream = new MediaStream([consumer.track]);
+          setRemoteStreams((prev) => {
+            const newMap = new Map(prev);
+            newMap.set(consumer.id, {
+              kind: kind,
+              stream: stream,
+            });
+            return newMap;
+          });
+        }
+      );
+    };
 
     // Create recvTransport
     socket.emit("createTransport", {}, async (response: TransportResponse) => {
