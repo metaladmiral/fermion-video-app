@@ -2,7 +2,7 @@ import express from "express";
 import http from "http";
 import { createSocketServer } from "./ws/ws";
 import { createMediasoupWorker } from "./mediasoup/worker";
-import { createRoom, initMediasoup } from "./mediasoup/sfu";
+import { createRoom, initMediasoup, Room } from "./mediasoup/sfu";
 import path from "path";
 import { delayFfmpegRun } from "./helper";
 import cors from "cors";
@@ -16,6 +16,10 @@ app.use("/", express.static(path.join(__dirname, "../public/")));
 
 async function main() {
   const mediasoupWorker = await createMediasoupWorker();
+  if (!mediasoupWorker) {
+    console.error("Mediasoup creation failed.");
+    return;
+  }
   const router = await initMediasoup(mediasoupWorker);
   const room = createRoom(router);
   setInterval(() => {
@@ -40,7 +44,7 @@ async function main() {
   }, 15000);
 
   io.on("connection", (socket) => {
-    socket.on("getProducers", async (_, callback) => {
+    socket.on("getExistingProducers", async (_, callback) => {
       const existingProducers = [];
       for (const [socketId, producerMap] of room.producers.entries()) {
         if (socketId === socket.id) continue; // Skip the current socket
@@ -73,8 +77,10 @@ async function main() {
           if (!transport) throw new Error("Transport not found");
           await transport.connect({ dtlsParameters });
           callback({ success: true });
-        } catch (error) {
-          callback({ error });
+        } catch (error: any) {
+          callback({
+            error: error.message || "Unknown error while connecting Transport",
+          });
         }
       }
     );
@@ -120,7 +126,7 @@ async function main() {
           });
         } catch (error) {
           console.error("Error producing:", error);
-          callback({ error: "Failed to produce" });
+          callback(error);
         }
       }
     );

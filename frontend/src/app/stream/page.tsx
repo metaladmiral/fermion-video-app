@@ -2,16 +2,13 @@
 import { useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import * as mediasoupClient from "mediasoup-client";
-
-type TransportResponse = {
-  param?: {
-    id: string;
-    iceParameters: mediasoupClient.types.IceParameters;
-    iceCandidates: mediasoupClient.types.IceCandidate[];
-    dtlsParameters: mediasoupClient.types.DtlsParameters;
-  };
-  error?: string;
-};
+import {
+  TransportResponse,
+  ExistingProducersList,
+  SocketCallbackResponse,
+  ConsumeSocketCallbackResponse,
+  ProduceSocketCallbackResponse,
+} from "../types";
 
 export default function StreamPage() {
   const localVideoRef = useRef<HTMLVideoElement>(null);
@@ -112,11 +109,13 @@ export default function StreamPage() {
                   socket.emit(
                     "produce",
                     { transportId: sendTransport.id, kind, rtpParameters },
-                    (response: any) => {
+                    (response: ProduceSocketCallbackResponse) => {
                       if (response.error) {
-                        errback(response.error);
+                        errback(new Error(response.error));
                       } else {
-                        callback({ id: response.id });
+                        if (response.id) {
+                          callback({ id: response.id });
+                        }
                       }
                     }
                   );
@@ -188,16 +187,28 @@ export default function StreamPage() {
         transportId: transport.id,
         rtpCapabilities: device.rtpCapabilities,
       },
-      async (params: any) => {
-        if (params.error) {
+      async (params: ConsumeSocketCallbackResponse) => {
+        if (
+          params.error ||
+          !params.kind ||
+          !params.rtpParameters ||
+          !params.producerId ||
+          !params.id
+        ) {
           console.log("Consume error: ", params.error);
           return;
         }
+
+        const consumerId = params.id;
+        const producerId = params.producerId;
+        const kind = params.kind;
+        const rtpParameters = params.rtpParameters;
+
         const consumer = await transport.consume({
-          id: params.id,
-          producerId: params.producerId,
-          kind: params.kind,
-          rtpParameters: params.rtpParameters,
+          id: consumerId,
+          producerId: producerId,
+          kind: kind,
+          rtpParameters: rtpParameters,
         });
 
         consumerMap.current.set(consumer.id, consumer);
@@ -205,12 +216,12 @@ export default function StreamPage() {
           socket.emit("removeConsumerInServer", { consumerId: consumer.id });
         });
 
-        await consumer.resume();
+        consumer.resume();
         const stream = new MediaStream([consumer.track]);
         setRemoteStreams((prev) => {
           const newMap = new Map(prev);
           newMap.set(consumer.id, {
-            kind: params.kind,
+            kind: kind,
             stream: stream,
           });
           return newMap;
@@ -241,11 +252,11 @@ export default function StreamPage() {
                 transportId: recvTransportLocal.id,
                 dtlsParameters: dtlsParameters,
               },
-              (response: any) => {
+              (response: SocketCallbackResponse) => {
                 if (response.success) {
                   callback();
                 } else {
-                  errback(new Error("Failed to connect recvTransport"));
+                  errback(new Error(response.error));
                 }
               }
             );
@@ -256,12 +267,16 @@ export default function StreamPage() {
           consumeProducer(producerId, kind, recvTransportLocal);
         });
 
-        socket.emit("getProducers", {}, async (existingProducers: any[]) => {
-          await new Promise((resolve) => setTimeout(resolve, 3500));
-          existingProducers.forEach(({ producerId, kind }) => {
-            consumeProducer(producerId, kind, recvTransportLocal);
-          });
-        });
+        socket.emit(
+          "getExistingProducers",
+          {},
+          async (existingProducers: ExistingProducersList[]) => {
+            await new Promise((resolve) => setTimeout(resolve, 3500));
+            existingProducers.forEach(({ producerId, kind }) => {
+              consumeProducer(producerId, kind, recvTransportLocal);
+            });
+          }
+        );
       }
     });
   }, [socket, device]);
