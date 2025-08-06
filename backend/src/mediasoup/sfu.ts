@@ -67,11 +67,18 @@ export class Room {
 }
 
 export async function initMediasoup(worker: mediasoup.types.Worker) {
-  const router = await worker.createRouter({
-    mediaCodecs: mediasoupConfig.mediaCodecs,
-  });
-  console.log("Mediasoup router created with ID: ", router.id);
-  return router;
+  try {
+    const router = await worker.createRouter({
+      mediaCodecs: mediasoupConfig.mediaCodecs,
+    });
+    console.log("Mediasoup router created with ID: ", router.id);
+    return router;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log("Error creating a router: ", error.message);
+    }
+    return null;
+  }
 }
 
 export function createRoom(router: mediasoup.types.Router) {

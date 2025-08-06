@@ -40,7 +40,9 @@ export default async function startLiveStream(
 
   // clean-up if there is already a ffmpeg process
   if (room.ffmpegProcessController?.process) {
-    console.log("cleaning up the old ffmpeg process");
+    console.log(
+      "cleaning up the old ffmpeg process and rtp consumer for ffmpeg"
+    );
     await room.ffmpegProcessController.cleanup();
     cleanupRtpConsumers(room);
     console.log("clean up done");
@@ -52,33 +54,42 @@ export default async function startLiveStream(
   // create a plain transport and a consumer for every producer in the room for ffmpeg
   for (const [socketid, producersMap] of room.producers) {
     for (const [producerId, producer] of producersMap) {
-      const rtpTransport = await router.createPlainTransport({
-        listenIp: { ip: "127.0.0.1", announcedIp: undefined },
-        rtcpMux: false,
-        comedia: false,
-      });
+      try {
+        const rtpTransport = await router.createPlainTransport({
+          listenIp: { ip: "127.0.0.1", announcedIp: undefined },
+          rtcpMux: false,
+          comedia: false,
+        });
 
-      await rtpTransport.connect({
-        ip: "127.0.0.1",
-        port: basePort,
-        rtcpPort: basePort + 1,
-      });
+        await rtpTransport.connect({
+          ip: "127.0.0.1",
+          port: basePort,
+          rtcpPort: basePort + 1,
+        });
 
-      const consumer = await rtpTransport.consume({
-        producerId: producerId,
-        rtpCapabilities: router.rtpCapabilities,
-        paused: true, // start as paused to ensure Ffmpeg is ready before media flows
-      });
-      room.rtpConsumersForFfmpeg.set(consumer.id, consumer);
+        const consumer = await rtpTransport.consume({
+          producerId: producerId,
+          rtpCapabilities: router.rtpCapabilities,
+          paused: true, // start as paused to ensure Ffmpeg is ready before media flows
+        });
+        room.rtpConsumersForFfmpeg.set(consumer.id, consumer);
 
-      buildSdpLines(
-        sdpLines, // passed by reference
-        consumer.rtpParameters.codecs[0],
-        basePort,
-        producer.kind
-      );
+        buildSdpLines(
+          sdpLines, // passed by reference
+          consumer.rtpParameters.codecs[0],
+          basePort,
+          producer.kind
+        );
 
-      basePort += 2;
+        basePort += 2;
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.log(
+            "Error in setting up transports and consumers for ffmpeg",
+            error.message
+          );
+        }
+      }
     }
   }
 
@@ -87,7 +98,9 @@ export default async function startLiveStream(
     if (!room.ffmpegProcessController?.process) {
       // deleting helps the frontend to show if its live or not
       console.log("no process... deleted stream.m3u8 if exists");
-      await unlink(path.join(__dirname, "../../public/hls/stream.m3u8"));
+      try {
+        await unlink(path.join(__dirname, "../../public/hls/stream.m3u8"));
+      } catch (err) {}
     }
     return;
   }
@@ -99,16 +112,18 @@ export default async function startLiveStream(
     sdpParams: sdpLines,
   });
 
-  room.ffmpegProcessController = await spawnFFmpeg(
-    sdpPath,
-    path.join(__dirname, "../../public/hls") // output dir for hls chunks
-  );
-  await new Promise((res) => setTimeout(res, CONSUMER_RESUME_DELAY_MS));
-  for (const rtpConsumer of room.rtpConsumersForFfmpeg.values()) {
-    try {
-      await rtpConsumer.resume();
-    } catch (err) {
-      console.log("error resuming consumer");
+  if (sdpPath) {
+    room.ffmpegProcessController = await spawnFFmpeg(
+      sdpPath,
+      path.join(__dirname, "../../public/hls") // output dir for hls chunks
+    );
+    await new Promise((res) => setTimeout(res, CONSUMER_RESUME_DELAY_MS));
+    for (const rtpConsumer of room.rtpConsumersForFfmpeg.values()) {
+      try {
+        await rtpConsumer.resume();
+      } catch (err) {
+        console.log("error resuming consumer");
+      }
     }
   }
 }

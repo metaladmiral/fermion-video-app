@@ -20,7 +20,13 @@ async function main() {
     console.error("Mediasoup creation failed.");
     return;
   }
+
   const router = await initMediasoup(mediasoupWorker);
+  if (!router) {
+    console.error("Router creation failed");
+    return;
+  }
+
   const room = createRoom(router);
   setInterval(() => {
     console.log(
@@ -63,9 +69,13 @@ async function main() {
       try {
         const { param } = await room.createWebRtcTransport(socket.id);
         callback({ param });
-      } catch (error) {
-        console.error("Error creating transport:", error);
-        callback({ error: "Failed to create transport" });
+      } catch (error: unknown) {
+        let msg = "";
+        if (error instanceof Error) {
+          msg = error.message;
+          console.error("Error creating transport:", error.message);
+        }
+        callback({ error: msg || "Error creating transport" });
       }
     });
 
@@ -77,9 +87,13 @@ async function main() {
           if (!transport) throw new Error("Transport not found");
           await transport.connect({ dtlsParameters });
           callback({ success: true });
-        } catch (error: any) {
+        } catch (error: unknown) {
+          let message = "";
+          if (error instanceof Error) {
+            message = error.message;
+          }
           callback({
-            error: error.message || "Unknown error while connecting Transport",
+            error: message || "Unknown error while connecting Transport",
           });
         }
       }
@@ -124,9 +138,15 @@ async function main() {
             socketId: socket.id,
             kind,
           });
-        } catch (error) {
-          console.error("Error producing:", error);
-          callback(error);
+        } catch (error: unknown) {
+          let msg = "";
+          if (error instanceof Error) {
+            console.error("Error producing:", error.message);
+            msg = error.message;
+          }
+          callback({
+            error: msg || "Error on Producing",
+          });
         }
       }
     );
@@ -175,8 +195,13 @@ async function main() {
             kind: consumer.kind,
             rtpParameters: consumer.rtpParameters,
           });
-        } catch (error) {
-          callback({ error });
+        } catch (error: unknown) {
+          let msg = "";
+          if (error instanceof Error) {
+            msg = error.message;
+            console.error("Error consuming, ", error.message);
+          }
+          callback({ error: msg || "Error consuming" });
         }
       }
     );

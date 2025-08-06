@@ -42,7 +42,14 @@ export async function generateSdp({ sdpParams }: { sdpParams: string[] }) {
   ].join("\r\n");
 
   const sdpPath = path.join(__dirname, "stream.sdp");
-  await fs.writeFile(sdpPath, sdp);
+  try {
+    await fs.writeFile(sdpPath, sdp);
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.log("failed to write on SDP file, message: ", err.message);
+    }
+    return null;
+  }
   return sdpPath;
 }
 
@@ -74,6 +81,7 @@ export async function gracefulProcessKill(
       if (!isResolved && process.pid) {
         console.log("kill signal sent");
         process.kill("SIGKILL");
+        resolve();
       }
     }, gracePeriodMs);
 
